@@ -36,6 +36,7 @@ export default function reactApplicationMiddleware(request, response) {
   // Initialize the store
   const store = new Store();
 
+  // Use with the build:static script
   const directoryPath = config('directoryPath');
 
   // Declare our React application.

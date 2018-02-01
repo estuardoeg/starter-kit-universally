@@ -12,7 +12,10 @@ import codeSplittingConfigExtender from './extenders/codeSplitting';
 import singleRouteAppConfigExtender from './extenders/singleRouteApp';
 import reactApplicationExtender from './extenders/reactApplication';
 
+// Use with the build:static script
 const directoryPath = EnvVars.string('DIRECTORY_PATH', '');
+
+// Path to bundles
 const clientBundleWebPath = `${directoryPath}/client/`;
 
 const values = {
@@ -36,7 +39,7 @@ const values = {
     gaId: true,
     // Expose heroku devtools flag
     herokuDevtools: true,
-    // path to the app is served at
+    // Path to the app is served at
     directoryPath: true,
   },
 
@@ -57,7 +60,7 @@ const values = {
   // The port on which the client bundle development server should run.
   clientDevServerPort: EnvVars.number('CLIENT_DEV_PORT', 7331),
 
-  // path to the app is served at
+  // Path to the app is served at
   directoryPath,
 
   // This is an example environment variable which is used within the react
