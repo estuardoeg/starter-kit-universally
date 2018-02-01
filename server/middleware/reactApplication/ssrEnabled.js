@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 import Store from 'store';
 import timing from 'utils/timing';
 import App from 'App';
+import config from 'utils/config';
 
 import addHash from './addHashToCspHeader';
 import ServerHTML from './ServerHTML';
@@ -35,10 +36,12 @@ export default function reactApplicationMiddleware(request, response) {
   // Initialize the store
   const store = new Store();
 
+  const directoryPath = config('directoryPath');
+
   // Declare our React application.
   const app = (
     <JobProvider jobContext={jobContext}>
-      <StaticRouter location={request.url} context={reactRouterContext}>
+      <StaticRouter location={request.url} context={reactRouterContext} basename={directoryPath}>
         <Provider {...store}>
           <App />
         </Provider>

@@ -9,19 +9,26 @@ import { remove, outputFile } from 'fs-extra';
 import superagent from 'superagent';
 import _ from 'lodash';
 import path from 'path';
+import url from 'url';
 import routeConfig from '../../../build/static/temp/routes.json'; // eslint-disable-line import/no-unresolved
 import config from '../../../config';
 
 // this import actually launches the server as well as providing a reference to it
 import server from '../../../build/server';
 
+const directoryPath = config('directoryPath');
+const appUrl = `http://${config('host')}:${config('port')}`;
+
 const rootDir = appRootDir.get();
 const outputDir = path.join(rootDir, config('buildOutputPath'), 'static');
 const tempDir = path.join(outputDir, 'temp');
 
 function renderRouteToHtmlFile({ source, destination, ignoreGetError }) {
+  const sourcePath = path.join(directoryPath, source);
+  const urlToGet = url.resolve(appUrl, sourcePath);
+
   return superagent
-    .get(`http://localhost:3000/${source}`)
+    .get(urlToGet)
     // if we're generating an expected error route (e.g. the 404 page)
     // we should ignore the error and use the response on the error
     .catch((err) => {

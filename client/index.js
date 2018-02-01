@@ -13,6 +13,9 @@ import App from 'App';
 import config from 'utils/config';
 import ReactHotLoader from './components/ReactHotLoader';
 
+// Use with the build:static script
+const directoryPath = config('directoryPath');
+
 // Initialize Google Analytics
 const gaId = config('gaId');
 
@@ -49,7 +52,7 @@ function renderApp(TheApp) {
     <ReactHotLoader>
       <JobProvider rehydrateState={rehydrateState}>
         <Provider {...store}>
-          <BrowserRouter forceRefresh={!supportsHistory}>
+          <BrowserRouter forceRefresh={!supportsHistory} basename={directoryPath}>
             <TheApp />
           </BrowserRouter>
         </Provider>

@@ -25,6 +25,7 @@
     "lint": "npm run eslint && npm run stylelint",
     "lint-staged": "lint-staged",
     "eslint": "eslint client server shared config internal --report-unused-disable-directives",
+    "static": "npm run build:static && npm run start:static",
     "stylelint": "stylelint \"shared/**/*.scss\" --syntax scss",
     "test": "jest",
     "test:coverage": "jest --coverage"
