@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import appRootDir from 'app-root-dir';
 import _ from 'lodash';
@@ -23,7 +24,13 @@ function copyClient() {
 
 function generateRouteConfig() {
   const { allIndex, routes } = config('staticSiteGeneration');
-  const { basePaths, ignoredPaths, customRoutes } = routes;
+  const { ignoredPaths, customRoutes } = routes;
+
+  // Read from the json files all the routes from the app
+  const basePaths = JSON.parse(fs.readFileSync(`${rootDir}/build/routes.json`));
+
+  // Add the empty string for the default home path
+  basePaths.push('');
 
   const basePathsToUse = _.filter(basePaths, basePath => !_.includes(ignoredPaths, basePath));
   const baseConfigs = _.map(basePathsToUse, (routePath) => {

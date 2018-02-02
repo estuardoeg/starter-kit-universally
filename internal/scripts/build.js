@@ -5,12 +5,17 @@
 import fs from 'fs';
 import webpack from 'webpack';
 import webpackConfigFactory from '../webpack/configFactory';
+import uniq from 'lodash/uniq';
+
 import config from '../../config';
 
 // eslint-disable-next-line no-unused-vars
 const [x, y, ...args] = process.argv;
 
 const optimize = args.findIndex(arg => arg === '--optimize') !== -1;
+const staticBuild = args.findIndex(arg => arg === '--static') !== -1;
+
+const routesRegex = /\.\/shared\/routes\/([^\/]+)\/index\.js/;
 
 // UENO: removed! We do this in build script.
 // First clear the build output dir.
@@ -29,7 +34,26 @@ Object.keys(config('bundles'))
         console.error(err);
         return;
       }
+
       console.log(stats.toString({ colors: true }));
+
+      // Extract routes for build:static
+      if (staticBuild && bundleName === 'server') {
+        const { modules } = stats.toJson({
+          all: false,
+          modules: true,
+          errors: false,
+          warnings: false,
+        });
+
+        const output = modules
+          .map(m => m.issuerName)
+          .filter(m => m && routesRegex.test(m))
+          .map(m => routesRegex.exec(m)[1])
+          .filter(m => m !== 'home' && m !== 'not-found');
+
+        fs.writeFileSync('build/routes.json', JSON.stringify(uniq(output)));
+      }
 
       // Save the build stats to a file so it can be used for serving css chunks
       if (bundleName === 'client') {
