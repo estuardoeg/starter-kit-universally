@@ -1,0 +1,23 @@
+@import '~styles/config';
+
+.images {
+  &__png {
+    width: 120px;
+    height: 120px;
+
+    background-image: url('assets/images/favicon.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &__svg {
+    margin-top: 40px;
+
+    width: 120px;
+    height: 120px;
+
+    background-image: url('!file-loader!assets/images/favicon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}

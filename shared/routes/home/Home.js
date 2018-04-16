@@ -5,12 +5,18 @@ import config from 'utils/config';
 import Segment from 'components/segment';
 import Button from 'components/button';
 
+import Images from './components/images';
+
 export default class Home extends PureComponent {
 
   render() {
     return (
       <div>
         <Helmet title="Home" />
+
+        <Segment>
+          <Images />
+        </Segment>
 
         <Segment>
           <h1>{config('welcomeMessage')}</h1>
