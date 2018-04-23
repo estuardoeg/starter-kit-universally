@@ -3,7 +3,7 @@ import { hydrate } from 'react-dom';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 import asyncBootstrapper from 'react-async-bootstrapper';
 import { JobProvider } from 'react-jobs';
-import { Provider } from 'mobx-react';
+import { Provider, useStaticRendering } from 'mobx-react';
 import { toJS } from 'mobx';
 import stringify from 'json-stringify-safe';
 import ReactGA from 'react-ga';
@@ -60,9 +60,14 @@ function renderApp(TheApp) {
     </ReactHotLoader>
   );
 
+  useStaticRendering(true);
+
   // Needed for react-jobs
   asyncBootstrapper(app)
-    .then(() => hydrate(app, container))
+    .then(() => {
+      useStaticRendering(false);
+      hydrate(app, container);
+    })
     .catch((err) => {
       console.warn('Error bootstrapping react app', err);
       throw err;
