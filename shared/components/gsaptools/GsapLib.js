@@ -8,11 +8,9 @@ class GsapLib extends PureComponent {
 
   render() {
     return (
-      <div>
-        <Helmet>
-          <script src="/gsapDevTools.js" />
-        </Helmet>
-      </div>
+      <Helmet>
+        <script src="/gsapDevTools.js" />
+      </Helmet>
     );
   }
 }
