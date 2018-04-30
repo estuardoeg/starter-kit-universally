@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import s from './Content.scss';
-
-export default class Content extends PureComponent {
+export default class GsapTools extends PureComponent {
 
   static propTypes = {
     children: PropTypes.node,
@@ -13,9 +11,9 @@ export default class Content extends PureComponent {
     const { children } = this.props;
 
     return (
-      <main className={s.content}>
+      <div>
         {children}
-      </main>
+      </div>
     );
   }
 }
