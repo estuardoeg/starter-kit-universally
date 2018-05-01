@@ -8,7 +8,6 @@ import AppLayout, { Content } from 'components/app-layout';
 import Header from 'components/header';
 import Navigation from 'components/navigation';
 import DevTools from 'components/devtools';
-import { GsapLib } from 'components/gsaptools';
 import Analytics from 'components/analytics';
 
 // Routes
@@ -44,7 +43,6 @@ export default function App() {
         </Switch>
 
         <DevTools />
-        <GsapLib />
       </Content>
     </AppLayout>
   );
