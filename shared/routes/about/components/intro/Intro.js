@@ -8,15 +8,14 @@ export default class Intro extends PureComponent {
 
   static propTypes = {
     heading: PropTypes.string,
-    subheading: PropTypes.string,
     copy: PropTypes.string,
-    toggle: PropTypes.bool,
+    intro: PropTypes.bool,
   }
 
   componentWillReceiveProps(props) {
-    if (props.toggle) {
+    if (props.intro) {
       this.animate();
-    } else {
+    } else if (this.timeline) {
       this.timeline.reversed(this.timeline.reverse());
     }
   }
@@ -26,11 +25,11 @@ export default class Intro extends PureComponent {
       return;
     }
 
-    const timeline = new TimelineLite();
+    const timeline = new TimelineLite({ id: 'Intro' });
     const ease = 'Power4.easeInOut';
 
     timeline.staggerFromTo(
-      [this.heading, this.subheading, this.copy],
+      [this.heading, this.copy],
       1,
       { autoAlpha: 0, x: -30 },
       { autoAlpha: 1, x: 0, ease },
@@ -42,32 +41,23 @@ export default class Intro extends PureComponent {
   }
 
   render() {
-    const { heading, subheading, copy } = this.props;
+    const { heading, copy } = this.props;
 
     return (
       <div className={s.intro}>
-        <div className={s.intro__container}>
-          <h1
-            className={s.intro__heading}
-            ref={(c) => { this.heading = c; }}
-          >
-            {heading}
-          </h1>
+        <h2
+          className={s.intro__heading}
+          ref={(c) => { this.heading = c; }}
+        >
+          {heading}
+        </h2>
 
-          <h2
-            className={s.intro__subheading}
-            ref={(c) => { this.subheading = c; }}
-          >
-            {subheading}
-          </h2>
-
-          <p
-            className={s.intro__copy}
-            ref={(c) => { this.copy = c; }}
-          >
-            {copy}
-          </p>
-        </div>
+        <p
+          className={s.intro__copy}
+          ref={(c) => { this.copy = c; }}
+        >
+          {copy}
+        </p>
       </div>
     );
   }

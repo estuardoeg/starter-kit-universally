@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Helmet from 'react-helmet';
 
 import s from './GsapLib.scss';
+
+// Key to store visibility state of the gsaptools
+const LOCAL_STORAGE_GSAPTOOLS = '_devtoolsGsapToolsVisible';
 
 class GsapLib extends Component {
 
@@ -16,8 +18,21 @@ class GsapLib extends Component {
     noPanel: true,
   }
 
+  componentDidMount() {
+    this.setup();
+  }
+
+  componentWillReceiveProps() {
+    this.setup();
+  }
+
+  setup = () => {
+    this.props.gsap.toggle = (localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true');
+  }
+
   onToggleGsapTools = () => {
     this.props.gsap.toggle = !this.props.gsap.toggle;
+    localStorage.setItem(LOCAL_STORAGE_GSAPTOOLS, this.props.gsap.toggle);
   }
 
   render() {
@@ -25,17 +40,13 @@ class GsapLib extends Component {
     const { toggle } = gsap;
 
     return (
-      <div>
-        <Helmet>
-          <script src="/gsapDevTools.js" />
-        </Helmet>
-
+      <Fragment>
         {!noPanel && (
           <button className={s(s.gsap, { toggle })} onClick={this.onToggleGsapTools}>
             GSAP
           </button>
         )}
-      </div>
+      </Fragment>
     );
   }
 }

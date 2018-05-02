@@ -26,6 +26,9 @@ function KeyedComponent({ children }) {
   return Children.only(children);
 }
 
+const isDev = process.env.BUILD_FLAG_IS_DEV === 'true';
+const showDevTools = isDev || config('herokuDevtools');
+
 const facebookPixel = config('facebookPixel');
 const twitterPixel = config('twitterPixel');
 const analytics = new Analytics({ facebookPixel, twitterPixel });
@@ -68,6 +71,7 @@ function ServerHTML(props) {
   const headerElements = removeNil([
     // Renames html class from no-js to js
     inlineScript('var e=document.documentElement;e.className=e.className.replace("no-js","js")'),
+    ifElse(showDevTools)(() => scriptTag('/gsapDevTools.js')),
     ifElse(facebookPixel)(() => inlineScript(analytics.facebook)),
     ifElse(twitterPixel)(() => inlineScript(analytics.twitter)),
     ...ifElse(helmet)(() => helmet.meta.toComponent(), []),
@@ -102,7 +106,7 @@ function ServerHTML(props) {
     // compilation times.  Therefore we need to inject the path to the
     // vendor dll bundle below.
     ifElse(
-      process.env.BUILD_FLAG_IS_DEV === 'true' && config('bundles.client.devVendorDLL.enabled'),
+      isDev && config('bundles.client.devVendorDLL.enabled'),
     )(() =>
       scriptTag(
         `${config('bundles.client.webPath')}${config(

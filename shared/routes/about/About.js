@@ -5,45 +5,76 @@ import Segment from 'components/segment';
 import Button from 'components/button';
 import GsapTools from 'components/gsaptools';
 
+import Heading from './components/heading';
 import Intro from './components/intro';
+import Cube from './components/cube';
 
 export default class About extends PureComponent {
 
   state = {
-    toggleAnimation: false,
+    toggleHeading: false,
+    toggleIntro: false,
+    moveCube: false,
   }
 
   componentDidMount() {
-    this.setState({ toggleAnimation: true }); // eslint-disable-line
+    this.setState({ // eslint-disable-line
+      toggleHeading: true,
+      toggleIntro: true,
+    });
   }
 
-  handleClick = () => {
+  handleIntro = () => {
     this.setState({
-      toggleAnimation: !this.state.toggleAnimation,
+      toggleIntro: !this.state.toggleIntro,
+    });
+  }
+
+  handleCube = () => {
+    this.setState({
+      moveCube: !this.state.moveCube,
+    });
+  }
+
+  handleHeading = () => {
+    this.setState({
+      toggleHeading: !this.state.toggleHeading,
     });
   }
 
   render() {
-    const { toggleAnimation } = this.state;
+    const { toggleIntro, moveCube, toggleHeading } = this.state;
 
     return (
       <div>
         <Helmet title="About" />
 
         <GsapTools>
+          <Heading
+            copy="About us."
+            heading={toggleHeading}
+          />
+        </GsapTools>
+
+        <GsapTools>
           <Intro
-            heading="About route"
-            subheading="Discover about us"
+            heading="Discover what drove us here"
             copy="This is a copy for the about route. Lorem ipsum dolor sit amet,
             consectetur adipiscing elit. Nulla malesuada interdum nibh. In hendrerit
             tellus nec enim convallis fringilla nec ut erat. Proin egestas
             erat vel scelerisque finibus."
-            toggle={toggleAnimation}
+            intro={toggleIntro}
           />
         </GsapTools>
 
+        <GsapTools>
+          <Cube move={moveCube} />
+        </GsapTools>
+
         <Segment>
-          <Button onClick={this.handleClick}>Toggle text</Button>
+          <Button onClick={this.handleHeading}>Toggle heading</Button>
+          <Button onClick={this.handleIntro}>Toggle intro</Button>
+          <Button onClick={this.handleCube}>Move cube</Button>
         </Segment>
       </div>
     );

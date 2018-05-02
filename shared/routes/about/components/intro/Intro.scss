@@ -1,24 +1,12 @@
 @import '~styles/config';
 
 .intro {
-  @include segment;
+  @include container;
 
-  position: relative;
-
-  &__container {
-    @include container;
-  }
+  padding-top: 40px;
+  padding-bottom: 20px;
 
   &__heading {
-    @include will-animate;
-    @include heading(32, 38);
-
-    margin-bottom: $gutter;
-
-    transform: translateX(-$gutter);
-  }
-
-  &__subheading {
     @include will-animate;
     @include subheading(22, 26);
 

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import { reaction } from 'mobx';
 
 class GsapTools extends Component {
 
@@ -10,45 +11,34 @@ class GsapTools extends Component {
   }
 
   componentDidMount() {
-    // Register animation before using gsap tools
-    setTimeout(() => {
-      // this.animation();
-    }, 100);
+    const { gsap } = this.props;
 
-    if (this.showGsapTools) {
-      this.gsapCheck = setInterval(() => {
-        if (GSDevTools) {
-          GSDevTools.create({
-            globalSync: false,
-            animation: this.timeline,
-            css: { position: 'fixed', zIndex: 9999 },
-          });
+    this.gsap = GSDevTools.create({
+      globalSync: false,
+      hideGlobalTimeline: true,
+      animation: this.children.timeline,
+      css: { position: 'fixed', zIndex: 9999 },
+    });
 
-          clearInterval(this.gsapCheck);
-        }
-      }, 200);
-    }
+    this.reaction = reaction(
+      () => gsap.toggle,
+      this.gsap.toggle,
+      true,
+    );
   }
 
   componentWillUnmount() {
-    if (this.showGsapTools) {
-      clearInterval(this.gsapCheck);
+    if (this.reaction) {
+      this.reaction();
     }
   }
 
   render() {
-    const { children, gsap } = this.props;
-    const { toggle } = gsap;
+    const { children } = this.props;
 
-    if (!toggle) {
-      return children;
-    }
-
-    return (
-      <div>
-        {children}
-      </div>
-    );
+    return cloneElement(children, {
+      ref: (c) => { this.children = c; },
+    });
   }
 }
 
