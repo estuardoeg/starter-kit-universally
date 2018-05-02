@@ -1,2 +1,2 @@
-export default from './GsapTools';
-export GsapLib from './GsapLib';
+export default from './Wrapper';
+export GsapTools from './GsapTools';

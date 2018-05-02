@@ -1,44 +1,53 @@
-import { Component, cloneElement } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { reaction } from 'mobx';
+
+import s from './GsapTools.scss';
+
+// Key to store visibility state of the gsaptools
+const LOCAL_STORAGE_GSAPTOOLS = '_devtoolsGsapToolsVisible';
 
 class GsapTools extends Component {
 
   static propTypes = {
     gsap: PropTypes.object,
-    children: PropTypes.node,
+    noPanel: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    noPanel: true,
   }
 
   componentDidMount() {
-    const { gsap } = this.props;
-
-    this.gsap = GSDevTools.create({
-      globalSync: false,
-      hideGlobalTimeline: true,
-      animation: this.children.timeline,
-      css: { position: 'fixed', zIndex: 9999 },
-    });
-
-    this.reaction = reaction(
-      () => gsap.toggle,
-      this.gsap.toggle,
-      true,
-    );
+    this.setup();
   }
 
-  componentWillUnmount() {
-    if (this.reaction) {
-      this.reaction();
-    }
+  componentWillReceiveProps() {
+    this.setup();
+  }
+
+  setup = () => {
+    this.props.gsap.toggle = (localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true');
+  }
+
+  onToggleGsapTools = () => {
+    this.props.gsap.toggle = !this.props.gsap.toggle;
+    localStorage.setItem(LOCAL_STORAGE_GSAPTOOLS, this.props.gsap.toggle);
   }
 
   render() {
-    const { children } = this.props;
+    const { noPanel, gsap } = this.props;
+    const { toggle } = gsap;
 
-    return cloneElement(children, {
-      ref: (c) => { this.children = c; },
-    });
+    return (
+      <Fragment>
+        {!noPanel && (
+          <button className={s(s.gsap, { toggle })} onClick={this.onToggleGsapTools}>
+            GSAP
+          </button>
+        )}
+      </Fragment>
+    );
   }
 }
 

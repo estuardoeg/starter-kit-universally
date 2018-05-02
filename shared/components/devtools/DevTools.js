@@ -6,7 +6,7 @@ import config from 'utils/config';
 const showDevTools = process.env.BUILD_FLAG_IS_DEV === 'true' || config('herokuDevtools');
 const MobxDevTools = showDevTools && require('mobx-react-devtools').default;
 const GridOverlay = showDevTools && require('components/grid-overlay').default;
-const GsapDevTools = showDevTools && require('components/gsaptools').GsapLib;
+const GsapDevTools = showDevTools && require('components/gsaptools').GsapTools;
 
 const LOCAL_STORAGE_KEY_VISIBLE = '_devtoolsVisible';
 
