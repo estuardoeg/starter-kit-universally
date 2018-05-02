@@ -1,13 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import config from 'utils/config';
 
-const showGsapTools = process.env.GSAP_DEVTOOLS === 'true' || config('gsapDevtools');
-
-class GsapTools extends PureComponent {
+class GsapTools extends Component {
 
   static propTypes = {
+    gsap: PropTypes.object,
     children: PropTypes.node,
   }
 
@@ -39,7 +37,12 @@ class GsapTools extends PureComponent {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, gsap } = this.props;
+    const { toggle } = gsap;
+
+    if (!toggle) {
+      return children;
+    }
 
     return (
       <div>
@@ -49,4 +52,4 @@ class GsapTools extends PureComponent {
   }
 }
 
-export default inject('index')(observer(GsapTools));
+export default inject('gsap')(observer(GsapTools));

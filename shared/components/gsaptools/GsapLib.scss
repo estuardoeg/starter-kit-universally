@@ -30,17 +30,9 @@
 
   &:hover {
     color: #000;
-
-    g { // stylelint-disable-line
-      fill: #000;
-    }
   }
 
-  &__svg {
-    margin-top: 4px;
-
-    g { // stylelint-disable-line
-      fill: #8d8d8d;
-    }
+  &.toggle {
+    color: #328bf3;
   }
 }

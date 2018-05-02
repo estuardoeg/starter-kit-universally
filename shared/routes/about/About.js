@@ -10,21 +10,21 @@ import Intro from './components/intro';
 export default class About extends PureComponent {
 
   state = {
-    toggleGsap: false,
+    toggleAnimation: false,
   }
 
   componentDidMount() {
-    this.setState({ toggleGsap: true });
+    this.setState({ toggleAnimation: true }); // eslint-disable-line
   }
 
   handleClick = () => {
     this.setState({
-      toggleGsap: !this.state.toggleGsap,
+      toggleAnimation: !this.state.toggleAnimation,
     });
   }
 
   render() {
-    const { toggleGsap } = this.state;
+    const { toggleAnimation } = this.state;
 
     return (
       <div>
@@ -38,7 +38,7 @@ export default class About extends PureComponent {
             consectetur adipiscing elit. Nulla malesuada interdum nibh. In hendrerit
             tellus nec enim convallis fringilla nec ut erat. Proin egestas
             erat vel scelerisque finibus."
-            toggle={toggleGsap}
+            toggle={toggleAnimation}
           />
         </GsapTools>
 
