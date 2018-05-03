@@ -8,7 +8,6 @@
 
   &__heading {
     @include will-animate;
-    @include subheading(22, 26);
 
     margin-bottom: $gutter;
 
@@ -17,7 +16,6 @@
 
   &__copy {
     @include will-animate;
-    @include copy(16, 18);
 
     max-width: 30em;
 

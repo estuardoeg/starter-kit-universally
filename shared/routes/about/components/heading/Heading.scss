@@ -15,7 +15,6 @@
 
   &__copy {
     @include will-animate;
-    @include heading(32, 38);
 
     margin-bottom: 0;
   }
