@@ -14,6 +14,12 @@ export default class Cube extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    if (props.move === this.move) {
+      return;
+    }
+
+    this.move = props.move;
+
     if (props.move) {
       this.animate();
     } else if (this.timeline) {

@@ -15,6 +15,12 @@ export default class Heading extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    if (props.heading === this.heading) {
+      return;
+    }
+
+    this.heading = props.heading;
+
     if (props.heading) {
       this.animate();
     } else if (this.timeline) {

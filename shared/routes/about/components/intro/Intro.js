@@ -16,6 +16,12 @@ export default class Intro extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    if (props.intro === this.intro) {
+      return;
+    }
+
+    this.intro = props.intro;
+
     if (props.intro) {
       this.animate();
     } else if (this.timeline) {
