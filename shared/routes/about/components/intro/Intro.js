@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap';
 
-import GsapTools from 'components/gsaptools';
+import GsapTools from 'components/gsap-tools';
 
 import s from './Intro.scss';
 

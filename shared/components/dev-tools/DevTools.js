@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import config from 'utils/config';
+import MobxDevTools from 'mobx-react-devtools';
+
+import GridOverlay from 'components/grid-overlay';
+import { Button as GsapDevTools } from 'components/gsap-tools';
 
 const showDevTools = process.env.BUILD_FLAG_IS_DEV === 'true' || config('herokuDevtools');
-const MobxDevTools = showDevTools && require('mobx-react-devtools').default;
-const GridOverlay = showDevTools && require('components/grid-overlay').default;
-const GsapDevTools = showDevTools && require('components/gsaptools').Button;
-
 const LOCAL_STORAGE_KEY_VISIBLE = '_devtoolsVisible';
 
 @observer
@@ -40,11 +40,11 @@ class DevTools extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <MobxDevTools noPanel={!this.display} />
         <GridOverlay noPanel={!this.display} columns={12} baseline={16} />
         <GsapDevTools noPanel={!this.display} />
-      </div>
+      </Fragment>
     );
   }
 }

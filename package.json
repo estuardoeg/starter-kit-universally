@@ -1,6 +1,6 @@
 {
   "name": "starter-kit-universally",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A starter kit from Ueno. Based on react-universally",
   "main": "build/server/index.js",
   "engines": {
@@ -145,7 +145,6 @@
     "react-jobs": "1.0.0",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
-    "react-svgdom-loader": "3.0.0",
     "react-universal-component": "2.7.0",
     "regenerator-runtime": "0.11.0",
     "rimraf": "2.6.1",
