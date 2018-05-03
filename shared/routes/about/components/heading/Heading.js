@@ -6,7 +6,7 @@ import GsapTools from 'components/gsaptools';
 
 import s from './Heading.scss';
 
-@GsapTools
+// @GsapTools
 export default class Heading extends PureComponent {
 
   static propTypes = {

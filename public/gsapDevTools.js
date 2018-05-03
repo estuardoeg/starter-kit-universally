@@ -1007,12 +1007,12 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
 				/*
 				 * UENO: Expose a toggle function to show/hide gsaptools
 				 */
-				this.toggle = function() {
-					if (hidden) {
-						show();
-					} else {
-						hide();
-					}
+				this.show = function() {
+					show();
+				};
+
+				this.hide = function() {
+					hide();
 				};
 
 				this.update = function(forceMerge) {

@@ -1,36 +1,14 @@
 import { Component, Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import { reaction } from 'mobx';
 
-class GsapTools extends Component {
+export default class GsapTools extends Component {
 
   static propTypes = {
-    gsap: PropTypes.object,
     children: PropTypes.node,
   }
 
   componentDidMount() {
-    const { gsap } = this.props;
-
-    this.GSDevTools = GSDevTools.create({
-      globalSync: false,
-      hideGlobalTimeline: true,
-      animation: this.children.timeline,
-      css: { position: 'fixed', zIndex: 9999 },
-    });
-
-    this.reaction = reaction(
-      () => gsap.toggle,
-      this.GSDevTools.toggle,
-      true,
-    );
-  }
-
-  componentWillUnmount() {
-    if (this.reaction) {
-      this.reaction();
-    }
+    // Update the GSDevTools to add the decorated component
   }
 
   render() {
@@ -47,5 +25,3 @@ class GsapTools extends Component {
     });
   }
 }
-
-export default inject('gsap')(observer(GsapTools));

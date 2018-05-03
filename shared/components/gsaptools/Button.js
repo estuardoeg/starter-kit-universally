@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
 
 import s from './Button.scss';
@@ -8,10 +7,9 @@ import s from './Button.scss';
 // Key to store visibility state of the gsaptools
 const LOCAL_STORAGE_GSAPTOOLS = '_devtoolsGsapToolsVisible';
 
-class Button extends Component {
+export default class Button extends Component {
 
   static propTypes = {
-    gsap: PropTypes.object,
     noPanel: PropTypes.bool,
   }
 
@@ -24,6 +22,12 @@ class Button extends Component {
 
   componentDidMount() {
     this.setup();
+
+    this.GSDevTools = GSDevTools.create({
+      globalSync: false,
+      hideGlobalTimeline: true,
+      css: { position: 'fixed', zIndex: 9999 },
+    });
   }
 
   componentWillReceiveProps() {
@@ -31,25 +35,29 @@ class Button extends Component {
   }
 
   setup = () => {
-    this.isVisible = (localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true');
-    this.props.gsap.toggle = this.isVisible;
+    this.isVisible = localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true';
   }
 
   onToggleGsapTools = () => {
     this.isVisible = !this.isVisible;
-    this.props.gsap.toggle = this.isVisible;
+
+    if (this.isVisible) {
+      this.GSDevTools.show();
+    } else {
+      this.GSDevTools.hide();
+    }
 
     localStorage.setItem(LOCAL_STORAGE_GSAPTOOLS, this.isVisible);
   }
 
   render() {
+    const { isVisible } = this;
     const { noPanel } = this.props;
-    const toggle = this.isVisible;
 
     return (
       <Fragment>
         {!noPanel && (
-          <button className={s(s.button, { toggle })} onClick={this.onToggleGsapTools}>
+          <button className={s(s.button, { isVisible })} onClick={this.onToggleGsapTools}>
             GSAP
           </button>
         )}
@@ -57,5 +65,3 @@ class Button extends Component {
     );
   }
 }
-
-export default inject('gsap')(observer(Button));

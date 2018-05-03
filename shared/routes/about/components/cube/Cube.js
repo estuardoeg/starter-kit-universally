@@ -6,7 +6,7 @@ import GsapTools from 'components/gsaptools';
 
 import s from './Cube.scss';
 
-@GsapTools
+// @GsapTools
 export default class Cube extends PureComponent {
 
   static propTypes = {

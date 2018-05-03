@@ -6,7 +6,7 @@ import GsapTools from 'components/gsaptools';
 
 import s from './Intro.scss';
 
-@GsapTools
+// @GsapTools
 export default class Intro extends PureComponent {
 
   static propTypes = {
