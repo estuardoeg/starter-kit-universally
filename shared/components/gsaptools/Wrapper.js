@@ -13,7 +13,7 @@ class GsapTools extends Component {
   componentDidMount() {
     const { gsap } = this.props;
 
-    this.gsap = GSDevTools.create({
+    this.GSDevTools = GSDevTools.create({
       globalSync: false,
       hideGlobalTimeline: true,
       animation: this.children.timeline,
@@ -22,7 +22,7 @@ class GsapTools extends Component {
 
     this.reaction = reaction(
       () => gsap.toggle,
-      this.gsap.toggle,
+      this.GSDevTools.toggle,
       true,
     );
   }

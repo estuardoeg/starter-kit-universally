@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import { observable } from 'mobx';
 
 import s from './Button.scss';
 
@@ -18,6 +19,9 @@ class Button extends Component {
     noPanel: true,
   }
 
+  @observable
+  isVisible = false;
+
   componentDidMount() {
     this.setup();
   }
@@ -27,17 +31,20 @@ class Button extends Component {
   }
 
   setup = () => {
-    this.props.gsap.toggle = (localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true');
+    this.isVisible = (localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true');
+    this.props.gsap.toggle = this.isVisible;
   }
 
   onToggleGsapTools = () => {
-    this.props.gsap.toggle = !this.props.gsap.toggle;
-    localStorage.setItem(LOCAL_STORAGE_GSAPTOOLS, this.props.gsap.toggle);
+    this.isVisible = !this.isVisible;
+    this.props.gsap.toggle = this.isVisible;
+
+    localStorage.setItem(LOCAL_STORAGE_GSAPTOOLS, this.isVisible);
   }
 
   render() {
-    const { noPanel, gsap } = this.props;
-    const { toggle } = gsap;
+    const { noPanel } = this.props;
+    const toggle = this.isVisible;
 
     return (
       <Fragment>
