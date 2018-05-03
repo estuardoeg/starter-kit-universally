@@ -3,7 +3,6 @@ import Helmet from 'react-helmet';
 
 import Segment from 'components/segment';
 import Button from 'components/button';
-import GsapTools from 'components/gsaptools';
 
 import Heading from './components/heading';
 import Intro from './components/intro';
@@ -49,27 +48,21 @@ export default class About extends PureComponent {
       <div>
         <Helmet title="About" />
 
-        <GsapTools>
-          <Heading
-            copy="About us."
-            heading={toggleHeading}
-          />
-        </GsapTools>
+        <Heading
+          copy="About us."
+          heading={toggleHeading}
+        />
 
-        <GsapTools>
-          <Intro
-            heading="Discover what drove us here"
-            copy="This is a copy for the about route. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nulla malesuada interdum nibh. In hendrerit
-            tellus nec enim convallis fringilla nec ut erat. Proin egestas
-            erat vel scelerisque finibus."
-            intro={toggleIntro}
-          />
-        </GsapTools>
+        <Intro
+          heading="Discover what drove us here"
+          copy="This is a copy for the about route. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Nulla malesuada interdum nibh. In hendrerit
+          tellus nec enim convallis fringilla nec ut erat. Proin egestas
+          erat vel scelerisque finibus."
+          intro={toggleIntro}
+        />
 
-        <GsapTools>
-          <Cube move={moveCube} />
-        </GsapTools>
+        <Cube move={moveCube} />
 
         <Segment>
           <Button onClick={this.handleHeading}>Toggle heading</Button>

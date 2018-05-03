@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap';
 
+import GsapTools from 'components/gsaptools';
+
 import s from './Intro.scss';
 
+@GsapTools
 export default class Intro extends PureComponent {
 
   static propTypes = {

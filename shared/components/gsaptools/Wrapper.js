@@ -1,4 +1,4 @@
-import { Component, cloneElement } from 'react';
+import { Component, Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { reaction } from 'mobx';
@@ -36,8 +36,14 @@ class GsapTools extends Component {
   render() {
     const { children } = this.props;
 
-    return cloneElement(children, {
-      ref: (c) => { this.children = c; },
+    return Children.map(children, (c) => {
+      if (c) {
+        return cloneElement(c, {
+          ref: (el) => { this.children = el; },
+        });
+      }
+
+      return c;
     });
   }
 }

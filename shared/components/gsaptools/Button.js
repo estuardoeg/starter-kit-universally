@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
-import s from './GsapTools.scss';
+import s from './Button.scss';
 
 // Key to store visibility state of the gsaptools
 const LOCAL_STORAGE_GSAPTOOLS = '_devtoolsGsapToolsVisible';
 
-class GsapTools extends Component {
+class Button extends Component {
 
   static propTypes = {
     gsap: PropTypes.object,
@@ -42,7 +42,7 @@ class GsapTools extends Component {
     return (
       <Fragment>
         {!noPanel && (
-          <button className={s(s.gsap, { toggle })} onClick={this.onToggleGsapTools}>
+          <button className={s(s.button, { toggle })} onClick={this.onToggleGsapTools}>
             GSAP
           </button>
         )}
@@ -51,4 +51,4 @@ class GsapTools extends Component {
   }
 }
 
-export default inject('gsap')(observer(GsapTools));
+export default inject('gsap')(observer(Button));
