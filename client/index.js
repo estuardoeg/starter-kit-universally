@@ -5,7 +5,7 @@ import asyncBootstrapper from 'react-async-bootstrapper';
 import { JobProvider } from 'react-jobs';
 import { Provider } from 'mobx-react';
 import { toJS } from 'mobx';
-import stringify from 'json-stringify-safe';
+// import stringify from 'json-stringify-safe';
 import ReactGA from 'react-ga';
 import Store from 'store';
 import App from 'App';
@@ -86,7 +86,8 @@ if (process.env.BUILD_FLAG_IS_DEV === 'true' && module.hot) {
 
   module.hot.dispose((data) => {
     // Deserialize store and keep in hot module data for next replacement
-    data.store = stringify(toJS(store));
+    // data.store = stringify(toJS(store));
+    data.store = toJS(store);
   });
 
   // Accept changes to this file for hot reloading.

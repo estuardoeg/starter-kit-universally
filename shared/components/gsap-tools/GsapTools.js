@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
-// import { TweenLite } from 'gsap';
+import { TimelineLite } from 'gsap';
 
 import s from './GsapTools.scss';
 
@@ -46,18 +46,15 @@ class GsapTools extends Component {
       this.isPlaying = !this.active.paused();
     }
 
-    // TweenLite.ticker.addEventListener('tick', this.onTick);
+    this.master = new TimelineLite({
+      onUpdate: () => {
+        this.range.value = this.master.progress() * 100;
+        this.progress = this.master.time();
+      },
+      // onComplete: () => master.restart(),
+    });
 
-    // this.active = new TimelineLite({
-    //   onUpdate: () => {
-    //     this.rangeEl.value = this.t.progress() * 100;
-    //   },
-    //   onComplete: () => this.t.restart(),
-    // });
-  }
-
-  onTick = () => {
-    // console.log('onTick');
+    this.master.add(this.active);
   }
 
   onChange = ({ currentTarget }) => {
@@ -87,6 +84,7 @@ class GsapTools extends Component {
   handleRange = () => {
     this.active.progress(this.range.value / 100);
     this.progress = this.active.time();
+    // this.master.add(this.active);
   }
 
   render() {
