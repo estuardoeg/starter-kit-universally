@@ -1,0 +1,36 @@
+@import '~styles/config';
+
+.heading {
+  @include container;
+
+  padding-top: 80px;
+
+  &__wrapper {
+    display: inline-block;
+
+    position: relative;
+
+    overflow: hidden;
+  }
+
+  &__copy {
+    @include will-animate;
+
+    margin-bottom: 0;
+  }
+
+  &__stripe {
+    @include will-animate($opacity: false);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: $color-placeholder;
+
+    tranform: translateX(-100%);
+  }
+}

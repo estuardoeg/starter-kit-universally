@@ -1,0 +1,24 @@
+@import '~styles/config';
+
+.intro {
+  @include container;
+
+  padding-top: 40px;
+  padding-bottom: 20px;
+
+  &__heading {
+    @include will-animate;
+
+    margin-bottom: $gutter;
+
+    transform: translateX(-$gutter);
+  }
+
+  &__copy {
+    @include will-animate;
+
+    max-width: 30em;
+
+    transform: translateX(-$gutter);
+  }
+}

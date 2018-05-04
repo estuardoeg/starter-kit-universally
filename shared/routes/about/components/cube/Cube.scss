@@ -1,0 +1,15 @@
+@import '~styles/config';
+
+.cube {
+  @include container;
+
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  &__shape {
+    width: 150px;
+    height: 150px;
+
+    background-color: $color-dark;
+  }
+}
