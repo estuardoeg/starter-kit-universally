@@ -1,5 +1,15 @@
 @import '~styles/config';
 
+@function progress($color, $size) {
+  $val: 5px 0 0 $size $color;
+
+  @for $i from 6 through 500 {
+    $val: #{$val}, #{$i}px 0 0 $size #{$color};
+  }
+
+  @return $val;
+}
+
 .gsapTools {
   $header: 58px;
 
@@ -7,22 +17,23 @@
   right: 30px;
   bottom: 30px;
   z-index: 9001;
+  overflow: hidden;
 
   min-width: 420px;
   height: 215px;
 
   background-color: #fff;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
   border-radius: 8px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
 
   &__header {
     display: flex;
     align-items: center;
 
-    height: $header;
-
     padding-left: 25px;
     padding-right: 25px;
+
+    height: $header;
 
     background-color: #000;
     border-top-left-radius: 8px;
@@ -33,8 +44,6 @@
   &__list {
     display: flex;
     align-items: center;
-
-    cursor: pointer;
   }
 
   &__select {
@@ -44,6 +53,8 @@
     padding-right: 20px;
 
     color: #fff;
+
+    cursor: pointer;
 
     background-color: transparent;
   }
@@ -89,12 +100,24 @@
     margin-top: 20px;
   }
 
-  &__rewind {
-    margin-right: 40px;
+  &__rewind,
+  &__playPause,
+  &__loop {
+    @include reset-button;
+
+    display: flex;
+
+    cursor: pointer;
+
+    transition: transform 300ms ease;
+
+    &:hover {
+      transform: scale(1.08);
+    }
   }
 
-  &__mainButton {
-    @include reset-button;
+  &__rewind {
+    margin-right: 40px;
   }
 
   &__loop {
@@ -102,42 +125,130 @@
   }
 
   &__timeline {
-    margin-top: auto;
-  }
-
-  &__seek {
     position: relative;
-    height: 12px;
 
-    border-radius: 12px;
-    background-color: #f7f9fa;
+    margin-top: auto;
+    margin-bottom: -15px;
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      right: -25px;
+
+      width: 25px;
+      height: 40px;
+
+      background-color: #fff;
+    }
   }
 
-  &__progress {
-    position: absolute;
-    top: 0;
-    left: 0;
+  &__input {
+    @include reset-input;
 
-    width: 18%;
-    height: 100%;
+    display: flex;
+    align-items: center;
 
-    border-radius: 12px;
-    background-color: #3ec2f1;
-  }
-
-  &__head {
-    position: absolute;
-    top: -4px;
-    left: 15%;
-    z-index: 10;
-
-    width: 20px;
-    height: 20px;
+    height: 40px;
+    width: 100%;
 
     cursor: ew-resize;
 
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
+    background: none;
+    border-radius: 12px;
+    appearance: none;
+
+    &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      content: '';
+
+      height: 12px;
+
+      pointer-events: none;
+
+      background-color: #3ec2f1;
+      border-radius: 12px;
+    }
+
+    &::-webkit-slider-thumb {
+      margin-top: -5px;
+
+      width: 20px;
+      height: 20px;
+
+      background-color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22), progress(#f7f9fa, -3px);
+
+      appearance: none;
+    }
+
+    &::-moz-range-track {
+      width: 100%;
+      height: 12px;
+    }
+
+    &::-moz-range-thumb {
+      position: relative;
+
+      width: 20px;
+      height: 20px;
+
+      background-color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
+    }
+
+    &::-moz-range-progress {
+      margin-top: 0;
+
+      height: 12px;
+
+      background-color: #3ec2f1;
+      border: 0;
+    }
+
+    &::-ms-track {
+      margin-top: 10px;
+
+      height: 12px;
+      width: 100%;
+
+      color: transparent;
+
+      background-color: transparent;
+      border: 0;
+      border-color: transparent;
+      border-radius: 0;
+      border-width: 0;
+    }
+
+    &::-ms-thumb {
+      width: 20px;
+      height: 20px;
+
+      background-color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
+    }
+
+    &::-ms-fill-lower {
+      background-color: #3ec2f1;
+      border-radius: 0;
+    }
+
+    &::-ms-fill-upper {
+      background-color: #f7f9fa;
+      border-radius: 0;
+    }
+
+    &::-ms-tooltip {
+      display: none;
+    }
   }
 }

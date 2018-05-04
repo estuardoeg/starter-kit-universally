@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { TimelineMax } from 'gsap';
+// import { TweenLite } from 'gsap';
 
 import s from './GsapTools.scss';
 
@@ -11,10 +13,10 @@ function round(number, precision) {
     return 0;
   }
 
-  const shift = (number, precision) => {
-    const numArray = ('' + number).split('e');
+  const shift = (nbr, pre) => {
+    const numArray = ('' + nbr).split('e'); // eslint-disable-line
 
-    return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + precision) : precision));
+    return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + pre) : pre)); // eslint-disable-line
   };
 
   return shift(Math.round(shift(number, +precision)), -precision);
@@ -40,7 +42,11 @@ class GsapTools extends Component {
   }
 
   componentDidMount() {
-    this.isPlaying = !this.active.paused();
+    if (this.active.length > 0) {
+      this.isPlaying = !this.active.paused();
+    }
+
+    // TweenLite.ticker.addEventListener('tick', this.onTick);
 
     // this.active = new TimelineLite({
     //   onUpdate: () => {
@@ -50,12 +56,21 @@ class GsapTools extends Component {
     // });
   }
 
+  onTick = () => {
+    // console.log('onTick');
+  }
+
   onChange = ({ currentTarget }) => {
     const active = this.props.listener.active(currentTarget.value);
+
     this.active = active;
   }
 
-  handleClick = () => {
+  handleRewind = () => {
+    this.active.restart();
+  }
+
+  handlePlayPause = () => {
     if (this.active.paused()) {
       this.active.play();
       this.isPlaying = true;
@@ -65,6 +80,10 @@ class GsapTools extends Component {
     }
   }
 
+  handleLoop = () => {
+
+  }
+
   handleRange = () => {
     this.active.progress(this.range.value / 100);
     this.progress = this.active.time();
@@ -72,7 +91,6 @@ class GsapTools extends Component {
 
   render() {
     const { listener } = this.props;
-    console.log('-this.active', this.active);
 
     return (
       <div className={s.gsapTools}>
@@ -81,7 +99,12 @@ class GsapTools extends Component {
             <div className={s.gsapTools__list}>
               <select className={s.gsapTools__select} onChange={this.onChange}>
                 {listener.list.map((g, i) => (
-                  <option key={i} value={g}>{g}</option>
+                  <option
+                    key={i} // eslint-disable-line
+                    value={g}
+                  >
+                    {g}
+                  </option>
                 ))}
               </select>
 
@@ -123,35 +146,37 @@ class GsapTools extends Component {
 
         <section className={s.gsapTools__inner}>
           <div className={s.gsapTools__controls}>
-            <svg className={s.gsapTools__rewind} width="19px" height="22px" viewBox="0 0 19 22">
-              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                <g transform="translate(-1048.000000, -757.000000)">
-                  <g transform="translate(909.000000, 655.000000)">
-                    <g transform="translate(140.000000, 102.000000)">
-                      <path d="M3.99338491,1.04825511 L16.220333,9.22342206 C17.1385622,9.83736736 17.3852331,11.0794402 16.7712878,11.9976695 C16.6259369,12.2150594 16.4393641,12.4018341 16.2221317,12.5474203 L3.93708446,20.7806863 C3.01952019,21.395625 1.77718108,21.1502985 1.1622424,20.2327342 C0.940154459,19.9013517 0.822239522,19.5111255 0.823652014,19.1122077 L0.881751137,2.70377466 C0.885662182,1.59921208 1.7842576,0.706957722 2.88882017,0.710868767 C3.28217541,0.712261562 3.66638643,0.829617791 3.99338491,1.04825511 Z" fill="#CAD5DB" transform="translate(9.290454, 10.919773) scale(-1, 1) translate(-9.290454, -10.919773)" />
-                      <path d="M0.818181818,2.45454545 L0.818181818,18.8181818" stroke="#CAD5DB" strokeWidth="2" strokeLinecap="round" />
+            <button className={s.gsapTools__rewind} onClick={this.handleRewind}>
+              <svg width="19px" height="22px" viewBox="0 0 19 22">
+                <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                  <g transform="translate(-1048.000000, -757.000000)">
+                    <g transform="translate(909.000000, 655.000000)">
+                      <g transform="translate(140.000000, 102.000000)">
+                        <path d="M3.99338491,1.04825511 L16.220333,9.22342206 C17.1385622,9.83736736 17.3852331,11.0794402 16.7712878,11.9976695 C16.6259369,12.2150594 16.4393641,12.4018341 16.2221317,12.5474203 L3.93708446,20.7806863 C3.01952019,21.395625 1.77718108,21.1502985 1.1622424,20.2327342 C0.940154459,19.9013517 0.822239522,19.5111255 0.823652014,19.1122077 L0.881751137,2.70377466 C0.885662182,1.59921208 1.7842576,0.706957722 2.88882017,0.710868767 C3.28217541,0.712261562 3.66638643,0.829617791 3.99338491,1.04825511 Z" fill="#CAD5DB" transform="translate(9.290454, 10.919773) scale(-1, 1) translate(-9.290454, -10.919773)" />
+                        <path d="M0.818181818,2.45454545 L0.818181818,18.8181818" stroke="#CAD5DB" strokeWidth="2" strokeLinecap="round" />
+                      </g>
                     </g>
                   </g>
                 </g>
-              </g>
-            </svg>
+              </svg>
+            </button>
 
-            <button className={s.gsapTools__mainButton} onClick={this.handleClick}>
+            <button className={s.gsapTools__playPause} onClick={this.handlePlayPause}>
               {this.isPlaying ? (
-                <svg className={s.gsapTools__pause} width="18px" height="32px" viewBox="0 0 18 32">
+                <svg width="18px" height="32px" viewBox="0 0 18 32">
                   <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round">
                     <g transform="translate(-1110.000000, -752.000000)" stroke="#000000" strokeWidth="5">
                       <g transform="translate(909.000000, 655.000000)">
                         <g transform="translate(202.000000, 100.000000)">
                           <path d="M13.8181818,0 L13.8181818,26.0200005" />
-                          <path d="M1.81818182,0 L1.81818182,26.0200005"  />
+                          <path d="M1.81818182,0 L1.81818182,26.0200005" />
                         </g>
                       </g>
                     </g>
                   </g>
                 </svg>
               ) : (
-                <svg className={s.gsapTools__play} width="25px" height="32px" viewBox="0 0 25 32">
+                <svg width="25px" height="32px" viewBox="0 0 25 32">
                   <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g transform="translate(-1107.000000, -752.000000)" fill="#000000">
                       <g transform="translate(909.000000, 655.000000)">
@@ -163,37 +188,34 @@ class GsapTools extends Component {
               )}
             </button>
 
-            <svg className={s.gsapTools__loop} width="19px" height="22px" viewBox="0 0 19 22">
-              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g transform="translate(-1169.000000, -757.000000)" stroke="#CAD5DB" strokeWidth="2">
-                  <g transform="translate(909.000000, 655.000000)">
-                    <g transform="translate(261.000000, 103.000000)">
-                      <path d="M0.373128255,10.1908366 L0.373128255,10.1908366 C0.373128255,6.36234656 3.47673264,3.25874217 7.30522267,3.25874217 L15.8986918,3.25874217" />
-                      <polyline transform="translate(15.144940, 3.333333) rotate(-90.000000) translate(-15.144940, -3.333333)" points="11.8116072 1.8133725 15.1449405 4.85329416 18.4782738 1.8133725" />
-
-                      <g transform="translate(8.333333, 14.583333) scale(-1, -1) translate(-8.333333, -14.583333) translate(0.000000, 9.166667)">
+            <button className={s.gsapTools__loop} onClick={this.handleLoop}>
+              <svg width="19px" height="22px" viewBox="0 0 19 22">
+                <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                  <g transform="translate(-1169.000000, -757.000000)" stroke="#CAD5DB" strokeWidth="2">
+                    <g transform="translate(909.000000, 655.000000)">
+                      <g transform="translate(261.000000, 103.000000)">
                         <path d="M0.373128255,10.1908366 L0.373128255,10.1908366 C0.373128255,6.36234656 3.47673264,3.25874217 7.30522267,3.25874217 L15.8986918,3.25874217" />
                         <polyline transform="translate(15.144940, 3.333333) rotate(-90.000000) translate(-15.144940, -3.333333)" points="11.8116072 1.8133725 15.1449405 4.85329416 18.4782738 1.8133725" />
+
+                        <g transform="translate(8.333333, 14.583333) scale(-1, -1) translate(-8.333333, -14.583333) translate(0.000000, 9.166667)">
+                          <path d="M0.373128255,10.1908366 L0.373128255,10.1908366 C0.373128255,6.36234656 3.47673264,3.25874217 7.30522267,3.25874217 L15.8986918,3.25874217" />
+                          <polyline transform="translate(15.144940, 3.333333) rotate(-90.000000) translate(-15.144940, -3.333333)" points="11.8116072 1.8133725 15.1449405 4.85329416 18.4782738 1.8133725" />
+                        </g>
                       </g>
                     </g>
                   </g>
                 </g>
-              </g>
-            </svg>
+              </svg>
+            </button>
           </div>
 
-          <input
-            className={s.gsapTools__timeline}
-            type="range"
-            onChange={this.handleRange}
-            ref={(c) => { this.range = c; }}
-          />
-
           <div className={s.gsapTools__timeline}>
-            <div className={s.gsapTools__seek}>
-              <div className={s.gsapTools__head} />
-              <div className={s.gsapTools__progress} />
-            </div>
+            <input
+              className={s.gsapTools__input}
+              type="range"
+              onChange={this.handleRange}
+              ref={(c) => { this.range = c; }}
+            />
           </div>
         </section>
       </div>
