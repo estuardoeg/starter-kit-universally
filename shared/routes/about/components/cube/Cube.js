@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap';
-
-import GsapTools from 'components/gsap-tools';
+import { inject, observer } from 'mobx-react';
 
 import s from './Cube.scss';
 
-export default class Cube extends PureComponent {
+class Cube extends Component {
 
   static propTypes = {
+    listener: PropTypes.object,
     move: PropTypes.bool,
   }
 
@@ -42,7 +42,13 @@ export default class Cube extends PureComponent {
     );
 
     this.timeline = timeline;
+    this.props.listener.add(this.timeline);
+
     return timeline;
+  }
+
+  componentWillUnmount() {
+    this.props.listener.clear(this.timeline);
   }
 
   render() {
@@ -56,3 +62,5 @@ export default class Cube extends PureComponent {
     );
   }
 }
+
+export default inject('listener')(observer(Cube));

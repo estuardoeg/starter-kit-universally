@@ -1,38 +1,108 @@
-import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { observable } from 'mobx';
+import { inject, observer } from 'mobx-react';
+import { TimelineMax } from 'gsap';
 
 import s from './GsapTools.scss';
 
-export default class GsapTools extends PureComponent {
+function round(number, precision) {
+  if (!number) {
+    return 0;
+  }
 
-  // static propTypes = {
-  //   children: PropTypes.node,
-  // }
+  const shift = (number, precision) => {
+    const numArray = ('' + number).split('e');
+
+    return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+
+  return shift(Math.round(shift(number, +precision)), -precision);
+}
+
+class GsapTools extends Component {
+
+  @observable
+  active;
+
+  @observable
+  isPlaying = false;
+
+  @observable
+  progress;
+
+  static propTypes = {
+    listener: PropTypes.object,
+  }
+
+  componentWillMount() {
+    this.active = this.props.listener.active();
+  }
+
+  componentDidMount() {
+    this.isPlaying = !this.active.paused();
+
+    // this.active = new TimelineLite({
+    //   onUpdate: () => {
+    //     this.rangeEl.value = this.t.progress() * 100;
+    //   },
+    //   onComplete: () => this.t.restart(),
+    // });
+  }
+
+  onChange = ({ currentTarget }) => {
+    const active = this.props.listener.active(currentTarget.value);
+    this.active = active;
+  }
+
+  handleClick = () => {
+    if (this.active.paused()) {
+      this.active.play();
+      this.isPlaying = true;
+    } else {
+      this.active.pause();
+      this.isPlaying = false;
+    }
+  }
+
+  handleRange = () => {
+    this.active.progress(this.range.value / 100);
+    this.progress = this.active.time();
+  }
 
   render() {
+    const { listener } = this.props;
+    console.log('-this.active', this.active);
+
     return (
       <div className={s.gsapTools}>
         <header className={s.gsapTools__header}>
-          <div className={s.gsapTools__list}>
-            <select className={s.gsapTools__select}>
-              <option value="Timeline #1">Timeline #1</option>
-            </select>
+          {listener.timelines.size > 0 ? (
+            <div className={s.gsapTools__list}>
+              <select className={s.gsapTools__select} onChange={this.onChange}>
+                {listener.list.map((g, i) => (
+                  <option key={i} value={g}>{g}</option>
+                ))}
+              </select>
 
-            <svg className={s.gsapTools__arrowDown} width="10px" height="7px" viewBox="0 0 10 7">
-              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g transform="translate(-1037.000000, -683.000000)" stroke="#FFFFFF">
-                  <g transform="translate(909.000000, 655.000000)">
-                    <g transform="translate(25.000000, 23.000000)">
-                      <polyline points="103 6 108 10.647906 113 6" />
+              <svg className={s.gsapTools__arrowDown} width="10px" height="7px" viewBox="0 0 10 7">
+                <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                  <g transform="translate(-1037.000000, -683.000000)" stroke="#FFFFFF">
+                    <g transform="translate(909.000000, 655.000000)">
+                      <g transform="translate(25.000000, 23.000000)">
+                        <polyline points="103 6 108 10.647906 113 6" />
+                      </g>
                     </g>
                   </g>
                 </g>
-              </g>
-            </svg>
-          </div>
+              </svg>
+            </div>
+          ) : (
+            <p className={s.gsapTools__select}>No timeline</p>
+          )}
 
           <p className={s.gsapTools__duration}>
-            <span>13.20</span> / 30.00
+            <span>{round(this.progress, 2)}</span> / {round(this.active._totalDuration, 2)}
           </p>
 
           <button className={s.gsapTools__cross}>
@@ -66,15 +136,32 @@ export default class GsapTools extends PureComponent {
               </g>
             </svg>
 
-            <svg className={s.gsapTools__play} width="25px" height="32px" viewBox="0 0 25 32">
-              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                <g transform="translate(-1107.000000, -752.000000)" fill="#000000">
-                  <g transform="translate(909.000000, 655.000000)">
-                    <path d="M201.210384,97.5792367 L221.598998,111.211447 C222.517228,111.825392 222.763899,113.067465 222.149953,113.985694 C222.004602,114.203084 221.81803,114.389859 221.600797,114.535445 L201.115302,128.264536 C200.197737,128.879475 198.955398,128.634148 198.34046,127.716584 C198.118372,127.385202 198.000457,126.994975 198.001869,126.596058 L198.09875,99.2347563 C198.102661,98.1301937 199.001257,97.2379393 200.105819,97.2418504 C200.499175,97.2432432 200.883386,97.3605994 201.210384,97.5792367 Z" />
+            <button className={s.gsapTools__mainButton} onClick={this.handleClick}>
+              {this.isPlaying ? (
+                <svg className={s.gsapTools__pause} width="18px" height="32px" viewBox="0 0 18 32">
+                  <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round">
+                    <g transform="translate(-1110.000000, -752.000000)" stroke="#000000" strokeWidth="5">
+                      <g transform="translate(909.000000, 655.000000)">
+                        <g transform="translate(202.000000, 100.000000)">
+                          <path d="M13.8181818,0 L13.8181818,26.0200005" />
+                          <path d="M1.81818182,0 L1.81818182,26.0200005"  />
+                        </g>
+                      </g>
+                    </g>
                   </g>
-                </g>
-              </g>
-            </svg>
+                </svg>
+              ) : (
+                <svg className={s.gsapTools__play} width="25px" height="32px" viewBox="0 0 25 32">
+                  <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                    <g transform="translate(-1107.000000, -752.000000)" fill="#000000">
+                      <g transform="translate(909.000000, 655.000000)">
+                        <path d="M201.210384,97.5792367 L221.598998,111.211447 C222.517228,111.825392 222.763899,113.067465 222.149953,113.985694 C222.004602,114.203084 221.81803,114.389859 221.600797,114.535445 L201.115302,128.264536 C200.197737,128.879475 198.955398,128.634148 198.34046,127.716584 C198.118372,127.385202 198.000457,126.994975 198.001869,126.596058 L198.09875,99.2347563 C198.102661,98.1301937 199.001257,97.2379393 200.105819,97.2418504 C200.499175,97.2432432 200.883386,97.3605994 201.210384,97.5792367 Z" />
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              )}
+            </button>
 
             <svg className={s.gsapTools__loop} width="19px" height="22px" viewBox="0 0 19 22">
               <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
@@ -95,6 +182,13 @@ export default class GsapTools extends PureComponent {
             </svg>
           </div>
 
+          <input
+            className={s.gsapTools__timeline}
+            type="range"
+            onChange={this.handleRange}
+            ref={(c) => { this.range = c; }}
+          />
+
           <div className={s.gsapTools__timeline}>
             <div className={s.gsapTools__seek}>
               <div className={s.gsapTools__head} />
@@ -106,3 +200,5 @@ export default class GsapTools extends PureComponent {
     );
   }
 }
+
+export default inject('listener')(observer(GsapTools));

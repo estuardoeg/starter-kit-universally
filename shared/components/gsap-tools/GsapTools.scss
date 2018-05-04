@@ -41,13 +41,15 @@
     @include reset-input;
     @include responsive-font(14, 16);
 
+    padding-right: 20px;
+
     color: #fff;
 
     background-color: transparent;
   }
 
   &__arrowDown {
-    margin-left: 10px;
+    margin-left: -10px;
   }
 
   &__duration {
@@ -91,8 +93,8 @@
     margin-right: 40px;
   }
 
-  &__play {
-
+  &__mainButton {
+    @include reset-button;
   }
 
   &__loop {

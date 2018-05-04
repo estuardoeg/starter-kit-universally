@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap';
-
-import GsapTools from 'components/gsap-tools';
+import { inject, observer } from 'mobx-react';
 
 import s from './Intro.scss';
 
-export default class Intro extends PureComponent {
+class Intro extends Component {
 
   static propTypes = {
+    listener: PropTypes.object,
     heading: PropTypes.string,
     copy: PropTypes.string,
     intro: PropTypes.bool,
@@ -45,7 +45,13 @@ export default class Intro extends PureComponent {
     );
 
     this.timeline = timeline;
+    this.props.listener.add(this.timeline);
+
     return timeline;
+  }
+
+  componentWillUnmount() {
+    this.props.listener.clear(this.timeline);
   }
 
   render() {
@@ -70,3 +76,5 @@ export default class Intro extends PureComponent {
     );
   }
 }
+
+export default inject('listener')(observer(Intro));
