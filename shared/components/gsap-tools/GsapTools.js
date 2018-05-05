@@ -83,18 +83,21 @@ class GsapTools extends Component {
     const active = this.props.listener.active(currentTarget.value);
 
     this.active = active;
+    this.master.clear();
+    this.master.add(this.active);
+    this.isPlaying = true;
   }
 
   handleRewind = () => {
-    this.active.restart();
+    this.master.restart();
   }
 
   handlePlayPause = () => {
-    if (this.active.paused()) {
-      this.active.play();
+    if (this.master.paused()) {
+      this.master.play();
       this.isPlaying = true;
     } else {
-      this.active.pause();
+      this.master.pause();
       this.isPlaying = false;
     }
   }
@@ -104,9 +107,8 @@ class GsapTools extends Component {
   }
 
   handleRange = () => {
-    this.active.progress(this.range.value / 100);
-    this.progress = this.active.time();
-    // this.master.add(this.active);
+    this.master.progress(this.range.value / 100);
+    this.progress = this.master.time();
   }
 
   handleClose = () => {
