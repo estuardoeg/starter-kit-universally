@@ -45,8 +45,18 @@ class GsapTools extends Component {
   constructor(props) {
     super(props);
 
+    this.setup(props);
+  }
+
+  setup = (props) => {
+    const { isVisible } = props;
+
     this.active = props.listener.active();
-    this.isVisible = props.isVisible;
+    this.isVisible = isVisible;
+
+    if (!isVisible && this.master) {
+      this.master.clear();
+    }
   }
 
   componentDidMount() {
@@ -63,6 +73,10 @@ class GsapTools extends Component {
     });
 
     this.master.add(this.active);
+  }
+
+  componentWillReceiveProps(props) {
+    this.setup(props);
   }
 
   onChange = ({ currentTarget }) => {
