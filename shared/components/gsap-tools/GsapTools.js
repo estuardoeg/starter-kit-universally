@@ -6,6 +6,7 @@ import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { TimelineLite } from 'gsap';
 
+import Range from './Range';
 import s from './GsapTools.scss';
 
 function round(number, precision) {
@@ -42,6 +43,9 @@ class GsapTools extends Component {
   @observable
   isVisible = false;
 
+  @observable
+  value;
+
   constructor(props) {
     super(props);
 
@@ -66,7 +70,7 @@ class GsapTools extends Component {
 
     this.master = new TimelineLite({
       onUpdate: () => {
-        this.range.value = this.master.progress() * 100;
+        this.value = this.master.progress() * 100;
         this.progress = this.master.time();
       },
       // onComplete: () => master.restart(),
@@ -106,8 +110,9 @@ class GsapTools extends Component {
 
   }
 
-  handleRange = () => {
-    this.master.progress(this.range.value / 100);
+  handleRange = (value) => {
+    this.value = value;
+    this.master.progress(this.value / 100);
     this.progress = this.master.time();
   }
 
@@ -245,11 +250,9 @@ class GsapTools extends Component {
             </div>
 
             <div className={s.gsapTools__timeline}>
-              <input
-                className={s.gsapTools__input}
-                type="range"
+              <Range
+                value={this.value}
                 onChange={this.handleRange}
-                ref={(c) => { this.range = c; }}
               />
             </div>
           </section>

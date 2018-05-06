@@ -1,0 +1,48 @@
+.range {
+  position: relative;
+
+  height: 12px;
+
+  background-color: #f7f9fa;
+  border-radius: 12px;
+
+  touch-action: none;
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &__fill {
+    display: block;
+
+    top: 0;
+
+    height: 100%;
+
+    background-color: #3ec2f1;
+    border-radius: 10px;
+  }
+
+  &__handle {
+    display: inline-block;
+
+    position: absolute;
+    top: 50%;
+
+    width: 20px;
+    height: 20px;
+
+    cursor: ew-resize;
+
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.22);
+
+    transform: translate3d(-50%, -50%, 0);
+
+    .rangeslider__active {
+      opacity: 1;
+    }
+  }
+}
