@@ -11,13 +11,23 @@ import s from './GsapTools.scss';
 
 function round(number) {
   if (!number) {
-    return 0;
+    return '0.00';
   }
 
-  const val = Number(Math.round(`${number}e2`) + 'e-2'); // eslint-disable-line
-  const { length } = val.toString();
+  const nbr = Number(Math.round(`${number}e2`) + 'e-2'); // eslint-disable-line
+  const { length } = nbr.toString();
 
-  return length === 3 ? `${val}0` : val;
+  let val;
+
+  if (length === 3) {
+    val = `${nbr}0`;
+  } else if (length === 1) {
+    val = `${nbr}.00`;
+  } else {
+    val = nbr;
+  }
+
+  return val;
 }
 
 class GsapTools extends Component {
