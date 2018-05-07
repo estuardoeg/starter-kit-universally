@@ -13,6 +13,8 @@ export default class Range extends PureComponent {
     step: PropTypes.number,
     value: PropTypes.number,
     onChange: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDragComplete: PropTypes.func,
   }
 
   static defaultProps = {
@@ -56,9 +58,15 @@ export default class Range extends PureComponent {
   }
 
   // Attach event listeners to mousemove/mouseup events
-  handleStart = () => {
+  handleStart = (e) => {
+    const { onDragStart } = this.props
+
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleEnd);
+
+    if (onDragStart) {
+      onDragStart(e);
+    }
   }
 
   // Handle drag/mousemove event
@@ -79,9 +87,15 @@ export default class Range extends PureComponent {
   }
 
   // Detach event listeners to mousemove/mouseup events
-  handleEnd = () => {
+  handleEnd = (e) => {
+    const { onDragComplete } = this.props;
+
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleEnd);
+
+    if (onDragComplete) {
+      onDragComplete(e);
+    }
   }
 
   // Calculate position of slider based on its value

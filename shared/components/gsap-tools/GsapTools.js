@@ -116,6 +116,20 @@ class GsapTools extends Component {
     this.progress = this.master.time();
   }
 
+  handleRangeStart = () => {
+    this.wasPlaying = !this.master.paused();
+
+    if (this.wasPlaying) {
+      this.master.pause();
+    }
+  }
+
+  handleRangeComplete = () => {
+    if (this.wasPlaying) {
+      this.master.play();
+    }
+  }
+
   handleClose = () => {
     const { onClick, isVisible } = this.props;
 
@@ -253,6 +267,8 @@ class GsapTools extends Component {
               <Range
                 value={this.value}
                 onChange={this.handleRange}
+                onDragStart={this.handleRangeStart}
+                onDragComplete={this.handleRangeComplete}
               />
             </div>
           </section>
