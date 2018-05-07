@@ -10,8 +10,8 @@ export default class Range extends PureComponent {
   static propTypes = {
     value: PropTypes.number,
     onChange: PropTypes.func,
-    onDragStart: PropTypes.func,
-    onDragComplete: PropTypes.func,
+    onChangeStart: PropTypes.func,
+    onChangeComplete: PropTypes.func,
   }
 
   static defaultProps = {
@@ -50,20 +50,20 @@ export default class Range extends PureComponent {
   }
 
   handleStart = (e) => {
-    const { onDragStart } = this.props;
+    const { onChangeStart } = this.props;
 
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleEnd);
 
-    if (onDragStart) {
-      onDragStart(e);
+    if (onChangeStart) {
+      onChangeStart(e);
     }
   }
 
   handleDrag = (e) => {
     e.stopPropagation();
 
-    const { onChange, onDragStart } = this.props;
+    const { onChange, onChangeStart } = this.props;
     const { currentTarget } = e;
 
     if (!onChange) {
@@ -78,20 +78,20 @@ export default class Range extends PureComponent {
       document.addEventListener('mousemove', this.handleDrag);
       document.addEventListener('mouseup', this.handleEnd);
 
-      if (onDragStart) {
-        onDragStart();
+      if (onChangeStart) {
+        onChangeStart();
       }
     }
   }
 
   handleEnd = () => {
-    const { onDragComplete } = this.props;
+    const { onChangeComplete } = this.props;
 
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleEnd);
 
-    if (onDragComplete) {
-      onDragComplete();
+    if (onChangeComplete) {
+      onChangeComplete();
     }
   }
 

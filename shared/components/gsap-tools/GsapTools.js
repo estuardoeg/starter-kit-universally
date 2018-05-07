@@ -54,6 +54,12 @@ class GsapTools extends Component {
   value;
 
   @observable
+  inTime;
+
+  @observable
+  outTime;
+
+  @observable
   isLoop = false;
 
   constructor(props) {
@@ -142,6 +148,14 @@ class GsapTools extends Component {
     this.value = value;
     this.master.progress(this.value / 100);
     this.progress = this.master.time();
+  }
+
+  handleInRange = (value) => {
+    this.inTime = value;
+  }
+
+  handleOutRange = (value) => {
+    this.outTime = value;
   }
 
   handleRangeStart = () => {
@@ -243,8 +257,10 @@ class GsapTools extends Component {
               <Range
                 value={this.value}
                 onChange={this.handleRange}
-                onDragStart={this.handleRangeStart}
-                onDragComplete={this.handleRangeComplete}
+                onChangeStart={this.handleRangeStart}
+                onChangeComplete={this.handleRangeComplete}
+                onChangeMarkerIn={this.handleInRange}
+                onChangeMarkerOut={this.handleOutRange}
               />
             </div>
           </section>
