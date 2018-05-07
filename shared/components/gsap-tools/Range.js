@@ -152,7 +152,7 @@ export default class Range extends PureComponent {
 
         <button
           ref={(c) => { this.rangeIn = c; }}
-          className={s(s.range__points, s.range__pointsIn)}
+          className={s(s.range__markers, s.range__markersIn)}
         >
           <svg width="10.1" height="17.9" viewBox="0 0 10.1 17.9">
             <path fille="#cad5db" d="M10.1,13.3L10.1,13.3l-4.2,4.4c-0.4,0.4-1,0.4-1.4,0L0,13.3l0.1-0.1V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1L10.1,13.3L10.1,13.3z" />
@@ -161,7 +161,7 @@ export default class Range extends PureComponent {
 
         <button
           ref={(c) => { this.rangeOut = c; }}
-          className={s(s.range__points, s.range__pointsOut)}
+          className={s(s.range__markers, s.range__markersOut)}
         >
           <svg width="10.1" height="17.9" viewBox="0 0 10.1 17.9">
             <path fille="#cad5db" d="M10.1,13.3L10.1,13.3l-4.2,4.4c-0.4,0.4-1,0.4-1.4,0L0,13.3l0.1-0.1V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1L10.1,13.3L10.1,13.3z" />
