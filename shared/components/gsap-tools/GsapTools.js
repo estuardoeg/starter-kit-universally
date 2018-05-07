@@ -107,9 +107,14 @@ class GsapTools extends Component {
     const active = this.props.listener.active(currentTarget.value);
 
     this.active = active;
+
     this.master.clear();
     this.master.add(this.active);
+    this.master.play();
+    this.master.seek(0);
+
     this.playIcon = false;
+    this.value = 0;
   }
 
   handleRewind = () => {
