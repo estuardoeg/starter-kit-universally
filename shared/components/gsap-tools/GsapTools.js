@@ -29,19 +29,22 @@ class GsapTools extends Component {
   }
 
   @observable
-  active;
+  isVisible = false;
 
   @observable
-  isPlaying = false;
+  playIcon = false;
+
+  @observable
+  active;
 
   @observable
   progress;
 
   @observable
-  isVisible = false;
+  value;
 
   @observable
-  value;
+  isLoop = false;
 
   constructor(props) {
     super(props);
@@ -54,15 +57,11 @@ class GsapTools extends Component {
 
     this.active = props.listener.active();
     this.isVisible = isVisible;
-
-    if (!isVisible && this.master) {
-      this.master.clear();
-    }
   }
 
   componentDidMount() {
     if (this.active.length > 0) {
-      this.isPlaying = !this.active.paused();
+      this.playIcon = this.active.paused();
     }
 
     this.master = new TimelineLite({
@@ -70,7 +69,13 @@ class GsapTools extends Component {
         this.value = this.master.progress() * 100;
         this.progress = this.master.time();
       },
-      // onComplete: () => master.restart(),
+      onComplete: () => {
+        if (this.isLoop) {
+          this.master.restart();
+        } else if (this.master.totalProgress() === 1) {
+          this.playIcon = true;
+        }
+      },
     });
 
     this.master.add(this.active);
@@ -86,25 +91,39 @@ class GsapTools extends Component {
     this.active = active;
     this.master.clear();
     this.master.add(this.active);
-    this.isPlaying = true;
+    this.playIcon = false;
   }
 
   handleRewind = () => {
-    this.master.restart();
+    if (this.master.paused()) {
+      this.master.seek(0);
+      this.value = 0;
+      this.playIcon = true;
+    } else {
+      this.master.restart();
+      this.playIcon = false;
+    }
   }
 
   handlePlayPause = () => {
+    if (this.master.totalProgress() === 1) {
+      this.playIcon = false;
+      this.master.restart();
+
+      return;
+    }
+
     if (this.master.paused()) {
       this.master.play();
-      this.isPlaying = true;
+      this.playIcon = false;
     } else {
       this.master.pause();
-      this.isPlaying = false;
+      this.playIcon = true;
     }
   }
 
   handleLoop = () => {
-
+    this.isLoop = !this.isLoop;
   }
 
   handleRange = (value) => {
@@ -141,9 +160,10 @@ class GsapTools extends Component {
   render() {
     const { listener, onClick } = this.props;
     const visible = this.isVisible;
+    const loop = this.isLoop;
 
     return (
-      <div className={s({ visible })}>
+      <div className={s({ visible, loop })}>
         <div className={s.gsapTools}>
           <header className={s.gsapTools__header}>
             {listener.timelines.size > 0 ? (
@@ -187,7 +207,7 @@ class GsapTools extends Component {
               </button>
 
               <button className={s.gsapTools__playPause} onClick={this.handlePlayPause}>
-                {this.isPlaying ? (
+                {this.playIcon ? (
                   <svg width="24.5" height="31.4" viewBox="0 0 24.5 31.4">
                     <path fill="#000" d="M3.2,0.3L23.6,14c0.9,0.6,1.2,1.9,0.6,2.8c-0.1,0.2-0.3,0.4-0.5,0.5L3.1,31c-0.9,0.6-2.2,0.4-2.8-0.5C0.1,30.1,0,29.8,0,29.4V2c0-1.1,0.9-2,2-2C2.4,0,2.9,0.1,3.2,0.3z" />
                   </svg>

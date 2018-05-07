@@ -141,6 +141,12 @@
   &__loop {
     margin-left: 40px;
 
+    .loop & {
+      path { // stylelint-disable-line
+        fill: #000;
+      }
+    }
+
     path { // stylelint-disable-line
       transition: fill 240ms;
 
