@@ -42,7 +42,7 @@ class GsapTools extends Component {
   isVisible = false;
 
   @observable
-  playIcon = false;
+  playIcon = true;
 
   @observable
   active;
@@ -63,32 +63,33 @@ class GsapTools extends Component {
   }
 
   setup = (props) => {
-    const { isVisible } = props;
+    const { isVisible, listener } = props || this.props;
 
-    this.active = props.listener.active();
+    // Get the first timeline of the Map if one exist
+    this.active = listener.active();
+
+    // Is the GsapTools should be visible or hidden
     this.isVisible = isVisible;
   }
 
   componentDidMount() {
-    if (this.active.length > 0) {
-      this.playIcon = this.active.paused();
-    }
+    setTimeout(() => {
+      this.master = new TimelineLite({
+        onUpdate: () => {
+          this.value = this.master.progress() * 100;
+          this.progress = this.master.time();
+        },
+        onComplete: () => {
+          if (this.isLoop) {
+            this.master.restart();
+          } else if (this.master.totalProgress() === 1) {
+            this.playIcon = true;
+          }
+        },
+      });
 
-    this.master = new TimelineLite({
-      onUpdate: () => {
-        this.value = this.master.progress() * 100;
-        this.progress = this.master.time();
-      },
-      onComplete: () => {
-        if (this.isLoop) {
-          this.master.restart();
-        } else if (this.master.totalProgress() === 1) {
-          this.playIcon = true;
-        }
-      },
+      this.master.add(this.active);
     });
-
-    this.master.add(this.active);
   }
 
   componentWillReceiveProps(props) {
@@ -179,7 +180,7 @@ class GsapTools extends Component {
             {listener.timelines.size > 0 ? (
               <div className={s.gsapTools__list}>
                 <select className={s.gsapTools__select} onChange={this.onChange}>
-                  {listener.list.map((g, i) => (
+                  {listener.keys.map((g, i) => (
                     <option
                       key={i} // eslint-disable-line
                       value={g}

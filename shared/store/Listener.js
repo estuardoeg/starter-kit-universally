@@ -6,11 +6,7 @@ export default class Listener {
   @observable
   timelines = new Map();
 
-  get data() {
-    return this.timelines.entries();
-  }
-
-  get list() {
+  get keys() {
     return this.timelines.keys();
   }
 
@@ -19,7 +15,8 @@ export default class Listener {
   }
 
   active(id) {
-    // If no id specified, let's return the first timeline we have
+    // If no id specified and that we have timeline saved
+    // let's return the first one we have
     if (!id && this.timelines.size > 0) {
       return this.values[0];
     }
@@ -35,22 +32,19 @@ export default class Listener {
     const id = get(timeline, 'vars.id');
 
     if (!id) {
-      return console.warn('You need to define an id to the timeline');
+      return console.warn('No id defined for the timeline. e.g. TimelineLite({ id: ’myTimeline’ })');
     }
 
-    // Hot reload and set just breaks Chrome
     if (!this.timelines.has(id)) {
       this.timelines.set(id, timeline);
     }
   }
 
   clear(timeline) {
-    // console.log('-clear', timeline);
-
     const id = get(timeline, 'vars.id');
 
     if (!id) {
-      return console.warn('No id define for this timeline');
+      return console.warn('No id defined for the timeline. e.g. TimelineLite({ id: ’myTimeline’ })');
     }
 
     if (this.timelines.has(id)) {

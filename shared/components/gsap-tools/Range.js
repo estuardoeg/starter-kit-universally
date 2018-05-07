@@ -67,7 +67,7 @@ export default class Range extends PureComponent {
   handleDrag = (e) => {
     e.stopPropagation();
 
-    const { onChange, onDragStart } = this.props;
+    const { onChange } = this.props;
 
     if (!onChange) {
       return;
