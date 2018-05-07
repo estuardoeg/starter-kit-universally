@@ -8,8 +8,6 @@ import s from './Range.scss';
 export default class Range extends PureComponent {
 
   static propTypes = {
-    min: PropTypes.number,
-    max: PropTypes.number,
     value: PropTypes.number,
     onChange: PropTypes.func,
     onDragStart: PropTypes.func,
@@ -17,8 +15,6 @@ export default class Range extends PureComponent {
   }
 
   static defaultProps = {
-    min: 0,
-    max: 100,
     value: 0,
   }
 
@@ -83,43 +79,34 @@ export default class Range extends PureComponent {
       document.addEventListener('mouseup', this.handleEnd);
 
       if (onDragStart) {
-        onDragStart(e);
+        onDragStart();
       }
     }
   }
 
-  handleEnd = (e) => {
+  handleEnd = () => {
     const { onDragComplete } = this.props;
 
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleEnd);
 
     if (onDragComplete) {
-      onDragComplete(e);
+      onDragComplete();
     }
   }
 
   getPositionFromValue = (value) => {
-    const { min, max } = this.props;
     const { limit } = this.state;
+    const percentage = value / 100;
 
-    const diffMaxMin = max - min;
-    const diffValMin = value - min;
-    const percentage = diffValMin / diffMaxMin;
-    const pos = Math.round(percentage * limit);
-
-    return pos;
+    return Math.round(percentage * limit);
   }
 
   getValueFromPosition = (pos) => {
-    const { min, max } = this.props;
     const { limit } = this.state;
-
     const percentage = clamp(pos, 0, limit) / (limit || 1);
-    const baseVal = Math.round(percentage * (max - min));
-    const value = baseVal + min;
 
-    return clamp(value, min, max);
+    return Math.round(percentage * 100);
   }
 
   position = (e) => {
