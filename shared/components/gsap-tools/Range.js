@@ -10,7 +10,6 @@ export default class Range extends PureComponent {
   static propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
-    step: PropTypes.number,
     value: PropTypes.number,
     onChange: PropTypes.func,
     onDragStart: PropTypes.func,
@@ -20,7 +19,6 @@ export default class Range extends PureComponent {
   static defaultProps = {
     min: 0,
     max: 100,
-    step: 1,
     value: 0,
   }
 
@@ -41,10 +39,8 @@ export default class Range extends PureComponent {
     resizeObserver.observe(this.range);
   }
 
-  // Update slider state on change
   handleUpdate = () => {
-    if (!this.range) {
-      // for shallow rendering
+    if (!this.range || !this.handle) {
       return;
     }
 
@@ -57,9 +53,8 @@ export default class Range extends PureComponent {
     });
   }
 
-  // Attach event listeners to mousemove/mouseup events
   handleStart = (e) => {
-    const { onDragStart } = this.props
+    const { onDragStart } = this.props;
 
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleEnd);
@@ -69,11 +64,10 @@ export default class Range extends PureComponent {
     }
   }
 
-  // Handle drag/mousemove event
   handleDrag = (e) => {
     e.stopPropagation();
 
-    const { onChange } = this.props;
+    const { onChange, onDragStart } = this.props;
 
     if (!onChange) {
       return;
@@ -84,9 +78,12 @@ export default class Range extends PureComponent {
     if (onChange) {
       onChange(value, e);
     }
+
+    if (onDragStart) {
+      onDragStart(e);
+    }
   }
 
-  // Detach event listeners to mousemove/mouseup events
   handleEnd = (e) => {
     const { onDragComplete } = this.props;
 
@@ -98,7 +95,6 @@ export default class Range extends PureComponent {
     }
   }
 
-  // Calculate position of slider based on its value
   getPositionFromValue = (value) => {
     const { min, max } = this.props;
     const { limit } = this.state;
@@ -111,19 +107,17 @@ export default class Range extends PureComponent {
     return pos;
   }
 
-  // Translate position of slider to slider value
   getValueFromPosition = (pos) => {
-    const { min, max, step } = this.props;
+    const { min, max } = this.props;
     const { limit } = this.state;
 
     const percentage = clamp(pos, 0, limit) / (limit || 1);
-    const baseVal = step * Math.round((percentage * (max - min)) / step);
+    const baseVal = Math.round(percentage * (max - min));
     const value = baseVal + min;
 
     return clamp(value, min, max);
   }
 
-  // Calculate position of slider based on value
   position = (e) => {
     const { grab } = this.state;
     const coordinate = !e.touches ? e.clientX : e.touches[0].clientX;
@@ -133,7 +127,6 @@ export default class Range extends PureComponent {
     return this.getValueFromPosition(pos);
   }
 
-  // Grab coordinates of slider
   coordinates = (pos) => {
     const { grab } = this.state;
     const value = this.getValueFromPosition(pos);
@@ -161,7 +154,25 @@ export default class Range extends PureComponent {
       >
         <div className={s.range__fill} style={fillStyle} />
 
-        <div // eslint-disable-line
+        <button
+          ref={(c) => { this.rangeIn = c; }}
+          className={s(s.range__points, s.range__pointsIn)}
+        >
+          <svg width="10.1" height="17.9" viewBox="0 0 10.1 17.9">
+            <path fille="#cad5db" d="M10.1,13.3L10.1,13.3l-4.2,4.4c-0.4,0.4-1,0.4-1.4,0L0,13.3l0.1-0.1V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1L10.1,13.3L10.1,13.3z" />
+          </svg>
+        </button>
+
+        <button
+          ref={(c) => { this.rangeOut = c; }}
+          className={s(s.range__points, s.range__pointsOut)}
+        >
+          <svg width="10.1" height="17.9" viewBox="0 0 10.1 17.9">
+            <path fille="#cad5db" d="M10.1,13.3L10.1,13.3l-4.2,4.4c-0.4,0.4-1,0.4-1.4,0L0,13.3l0.1-0.1V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1L10.1,13.3L10.1,13.3z" />
+          </svg>
+        </button>
+
+        <button
           ref={(c) => { this.handle = c; }}
           className={s.range__handle}
           onMouseDown={this.handleStart}

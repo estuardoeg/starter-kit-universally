@@ -162,16 +162,8 @@ class GsapTools extends Component {
                   ))}
                 </select>
 
-                <svg className={s.gsapTools__arrowDown} width="10px" height="7px" viewBox="0 0 10 7">
-                  <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                    <g transform="translate(-1037.000000, -683.000000)" stroke="#FFFFFF">
-                      <g transform="translate(909.000000, 655.000000)">
-                        <g transform="translate(25.000000, 23.000000)">
-                          <polyline points="103 6 108 10.647906 113 6" />
-                        </g>
-                      </g>
-                    </g>
-                  </g>
+                <svg className={s.gsapTools__arrowDown} width="11" height="5.6" viewBox="0 0 11 5.6">
+                  <path fill="#fff" d="M10.8,0.9l-5,4.6C5.7,5.6,5.6,5.6,5.5,5.6s-0.2,0-0.3-0.1l-5-4.6C0,0.7-0.1,0.4,0.1,0.2c0.2-0.2,0.5-0.2,0.7,0l4.7,4.3l4.7-4.3c0.2-0.2,0.5-0.2,0.7,0C11.1,0.4,11,0.7,10.8,0.9z" />
                 </svg>
               </div>
             ) : (
@@ -183,17 +175,8 @@ class GsapTools extends Component {
             </p>
 
             <button className={s.gsapTools__cross} onClick={this.handleClose}>
-              <svg width="12px" height="10px" viewBox="0 0 12 10">
-                <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round">
-                  <g transform="translate(-1293.000000, -680.000000)" stroke="#FFFFFF">
-                    <g transform="translate(909.000000, 655.000000)">
-                      <g transform="translate(385.000000, 25.000000)">
-                        <path d="M0,0 L10,10" id="Path-3" />
-                        <path d="M10,0 L0,10" id="Path-3-Copy" />
-                      </g>
-                    </g>
-                  </g>
-                </g>
+              <svg width="11" height="11" viewBox="0 0 11 11">
+                <path fill="#fff" d="M10.9,10.1c0.2,0.2,0.2,0.5,0,0.7C10.8,11,10.6,11,10.5,11s-0.3,0-0.4-0.1L5.5,6.2l-4.6,4.6C0.8,11,0.6,11,0.5,11s-0.3,0-0.4-0.1c-0.2-0.2-0.2-0.5,0-0.7l4.6-4.6L0.1,0.9C0,0.7,0,0.3,0.1,0.1s0.5-0.2,0.7,0l4.6,4.6l4.6-4.6c0.2-0.2,0.5-0.2,0.7,0s0.2,0.5,0,0.7L6.2,5.5L10.9,10.1z" />
               </svg>
             </button>
           </header>
@@ -201,64 +184,28 @@ class GsapTools extends Component {
           <section className={s.gsapTools__inner}>
             <div className={s.gsapTools__controls}>
               <button className={s.gsapTools__rewind} onClick={this.handleRewind}>
-                <svg width="19px" height="22px" viewBox="0 0 19 22">
-                  <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                    <g transform="translate(-1048.000000, -757.000000)">
-                      <g transform="translate(909.000000, 655.000000)">
-                        <g transform="translate(140.000000, 102.000000)">
-                          <path d="M3.99338491,1.04825511 L16.220333,9.22342206 C17.1385622,9.83736736 17.3852331,11.0794402 16.7712878,11.9976695 C16.6259369,12.2150594 16.4393641,12.4018341 16.2221317,12.5474203 L3.93708446,20.7806863 C3.01952019,21.395625 1.77718108,21.1502985 1.1622424,20.2327342 C0.940154459,19.9013517 0.822239522,19.5111255 0.823652014,19.1122077 L0.881751137,2.70377466 C0.885662182,1.59921208 1.7842576,0.706957722 2.88882017,0.710868767 C3.28217541,0.712261562 3.66638643,0.829617791 3.99338491,1.04825511 Z" fill="#CAD5DB" transform="translate(9.290454, 10.919773) scale(-1, 1) translate(-9.290454, -10.919773)" />
-                          <path d="M0.818181818,2.45454545 L0.818181818,18.8181818" stroke="#CAD5DB" strokeWidth="2" strokeLinecap="round" />
-                        </g>
-                      </g>
-                    </g>
-                  </g>
+                <svg width="17.9" height="20.4" viewBox="0 0 17.9 20.4">
+                  <path fill="#cad5db" d="M17.9,18.4c0,0.4-0.1,0.8-0.3,1.1c-0.6,0.9-1.9,1.2-2.8,0.5L2.5,11.8c-0.2-0.1-0.4-0.3-0.5-0.5v6.8c0,0.6-0.4,1-1,1s-1-0.4-1-1V1.7c0-0.6,0.4-1,1-1s1,0.4,1,1v7.3c0.1-0.2,0.3-0.4,0.5-0.5l12.2-8.2C15.1,0.1,15.5,0,15.9,0c1.1,0,2,0.9,2,2L17.9,18.4z" />
                 </svg>
               </button>
 
               <button className={s.gsapTools__playPause} onClick={this.handlePlayPause}>
                 {this.isPlaying ? (
-                  <svg width="18px" height="32px" viewBox="0 0 18 32">
-                    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round">
-                      <g transform="translate(-1110.000000, -752.000000)" stroke="#000000" strokeWidth="5">
-                        <g transform="translate(909.000000, 655.000000)">
-                          <g transform="translate(202.000000, 100.000000)">
-                            <path d="M13.8181818,0 L13.8181818,26.0200005" />
-                            <path d="M1.81818182,0 L1.81818182,26.0200005" />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
+                  <svg width="24.5" height="31.4" viewBox="0 0 24.5 31.4">
+                    <path fill="#000" d="M3.2,0.3L23.6,14c0.9,0.6,1.2,1.9,0.6,2.8c-0.1,0.2-0.3,0.4-0.5,0.5L3.1,31c-0.9,0.6-2.2,0.4-2.8-0.5C0.1,30.1,0,29.8,0,29.4V2c0-1.1,0.9-2,2-2C2.4,0,2.9,0.1,3.2,0.3z" />
                   </svg>
                 ) : (
-                  <svg width="25px" height="32px" viewBox="0 0 25 32">
-                    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                      <g transform="translate(-1107.000000, -752.000000)" fill="#000000">
-                        <g transform="translate(909.000000, 655.000000)">
-                          <path d="M201.210384,97.5792367 L221.598998,111.211447 C222.517228,111.825392 222.763899,113.067465 222.149953,113.985694 C222.004602,114.203084 221.81803,114.389859 221.600797,114.535445 L201.115302,128.264536 C200.197737,128.879475 198.955398,128.634148 198.34046,127.716584 C198.118372,127.385202 198.000457,126.994975 198.001869,126.596058 L198.09875,99.2347563 C198.102661,98.1301937 199.001257,97.2379393 200.105819,97.2418504 C200.499175,97.2432432 200.883386,97.3605994 201.210384,97.5792367 Z" />
-                        </g>
-                      </g>
-                    </g>
+                  <svg width="17" height="31" viewBox="0 0 17 31">
+                    <path fill="#000" d="M14.5,0C13.1,0,12,1.1,12,2.5v26c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5v-26C17,1.1,15.9,0,14.5,0z" />
+                    <path fill="#000" d="M2.5,0C1.1,0,0,1.1,0,2.5v26C0,29.9,1.1,31,2.5,31S5,29.9,5,28.5v-26C5,1.1,3.9,0,2.5,0z" />
                   </svg>
                 )}
               </button>
 
               <button className={s.gsapTools__loop} onClick={this.handleLoop}>
-                <svg width="19px" height="22px" viewBox="0 0 19 22">
-                  <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                    <g transform="translate(-1169.000000, -757.000000)" stroke="#CAD5DB" strokeWidth="2">
-                      <g transform="translate(909.000000, 655.000000)">
-                        <g transform="translate(261.000000, 103.000000)">
-                          <path d="M0.373128255,10.1908366 L0.373128255,10.1908366 C0.373128255,6.36234656 3.47673264,3.25874217 7.30522267,3.25874217 L15.8986918,3.25874217" />
-                          <polyline transform="translate(15.144940, 3.333333) rotate(-90.000000) translate(-15.144940, -3.333333)" points="11.8116072 1.8133725 15.1449405 4.85329416 18.4782738 1.8133725" />
-
-                          <g transform="translate(8.333333, 14.583333) scale(-1, -1) translate(-8.333333, -14.583333) translate(0.000000, 9.166667)">
-                            <path d="M0.373128255,10.1908366 L0.373128255,10.1908366 C0.373128255,6.36234656 3.47673264,3.25874217 7.30522267,3.25874217 L15.8986918,3.25874217" />
-                            <polyline transform="translate(15.144940, 3.333333) rotate(-90.000000) translate(-15.144940, -3.333333)" points="11.8116072 1.8133725 15.1449405 4.85329416 18.4782738 1.8133725" />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
+                <svg width="18.7" height="22" viewBox="0 0 18.7 22">
+                  <path fill="#cad5db" d="M18.4,3.7l-3-3.3c-0.4-0.4-1-0.4-1.4-0.1c-0.4,0.4-0.4,1-0.1,1.4l1.4,1.6h-7c-4.4,0-7.9,3.6-7.9,7.9c0,0.6,0.4,1,1,1s1-0.4,1-1c0-3.3,2.7-5.9,5.9-5.9h7.2L13.9,7c-0.4,0.4-0.3,1,0.1,1.4c0.2,0.2,0.4,0.3,0.7,0.3c0.3,0,0.5-0.1,0.7-0.3l3-3.3C18.7,4.6,18.7,4,18.4,3.7z" />
+                  <path fill="#cad5db" d="M17.3,9.8c-0.6,0-1,0.4-1,1c0,3.3-2.7,5.9-5.9,5.9H3.2L4.8,15c0.4-0.4,0.3-1-0.1-1.4s-1-0.3-1.4,0.1l-3,3.3c-0.3,0.4-0.3,1,0,1.3l3,3.3C3.5,21.9,3.8,22,4,22c0.2,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0.1-1.4l-1.4-1.6h7c4.4,0,7.9-3.6,7.9-7.9C18.3,10.3,17.8,9.8,17.3,9.8z" />
                 </svg>
               </button>
             </div>

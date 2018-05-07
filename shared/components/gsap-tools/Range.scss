@@ -1,3 +1,5 @@
+@import '~styles/config';
+
 .range {
   position: relative;
 
@@ -24,7 +26,38 @@
     border-radius: 10px;
   }
 
+  &__points {
+    @include reset-button;
+
+    position: absolute;
+    top: -28px;
+
+    cursor: pointer;
+
+    path { // stylelint-disable-line
+      fill: #cad5db;
+
+      transition: fill 240ms;
+    }
+
+    &:hover {
+      path { // stylelint-disable-line
+        fill: darken(#cad5db, 20%);
+      }
+    }
+
+    &In {
+      left: 0;
+    }
+
+    &Out {
+      right: 0;
+    }
+  }
+
   &__handle {
+    @include reset-button;
+
     display: inline-block;
 
     position: absolute;
