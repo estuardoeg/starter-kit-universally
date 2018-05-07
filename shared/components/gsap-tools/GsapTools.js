@@ -9,18 +9,15 @@ import { TimelineLite } from 'gsap';
 import Range from './Range';
 import s from './GsapTools.scss';
 
-function round(number, precision) {
+function round(number) {
   if (!number) {
     return 0;
   }
 
-  const shift = (nbr, pre) => {
-    const numArray = ('' + nbr).split('e'); // eslint-disable-line
+  const val = Number(Math.round(`${number}e2`) + 'e-2'); // eslint-disable-line
+  const { length } = val.toString();
 
-    return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + pre) : pre)); // eslint-disable-line
-  };
-
-  return shift(Math.round(shift(number, +precision)), -precision);
+  return length === 3 ? `${val}0` : val;
 }
 
 class GsapTools extends Component {
@@ -171,7 +168,7 @@ class GsapTools extends Component {
             )}
 
             <p className={s.gsapTools__duration}>
-              <span>{round(this.progress, 2)}</span> / {round(this.active._totalDuration, 2)}
+              <span>{round(this.progress)}</span> / {round(this.active._totalDuration)}
             </p>
 
             <button className={s.gsapTools__cross} onClick={this.handleClose}>
