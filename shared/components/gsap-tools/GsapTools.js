@@ -78,7 +78,6 @@ class GsapTools extends Component {
         onUpdate: () => {
           this.value = this.master.progress() * 100;
           this.progress = this.master.time();
-          this.playIcon = false;
         },
         onComplete: () => {
           if (this.isLoop) {
@@ -90,6 +89,7 @@ class GsapTools extends Component {
       });
 
       this.master.add(this.active);
+      this.playIcon = false;
     });
   }
 

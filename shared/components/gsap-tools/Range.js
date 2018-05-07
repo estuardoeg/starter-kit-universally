@@ -67,7 +67,8 @@ export default class Range extends PureComponent {
   handleDrag = (e) => {
     e.stopPropagation();
 
-    const { onChange } = this.props;
+    const { onChange, onDragStart } = this.props;
+    const { currentTarget } = e;
 
     if (!onChange) {
       return;
@@ -75,8 +76,15 @@ export default class Range extends PureComponent {
 
     const value = this.position(e);
 
-    if (onChange) {
-      onChange(value, e);
+    onChange(value, e);
+
+    if (currentTarget.id === 'range') {
+      document.addEventListener('mousemove', this.handleDrag);
+      document.addEventListener('mouseup', this.handleEnd);
+
+      if (onDragStart) {
+        onDragStart(e);
+      }
     }
   }
 
@@ -147,6 +155,7 @@ export default class Range extends PureComponent {
         onMouseUp={this.handleEnd}
         onTouchStart={this.handleStart}
         onTouchEnd={this.handleEnd}
+        id="range"
       >
         <div className={s.range__fill} style={fillStyle} />
 
