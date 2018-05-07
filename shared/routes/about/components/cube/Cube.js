@@ -36,7 +36,7 @@ class Cube extends Component {
 
     timeline.fromTo(
       this.cube,
-      1,
+      2,
       { x: 0 },
       { x: 200, ease },
     );

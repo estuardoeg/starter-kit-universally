@@ -78,10 +78,6 @@ export default class Range extends PureComponent {
     if (onChange) {
       onChange(value, e);
     }
-
-    if (onDragStart) {
-      onDragStart(e);
-    }
   }
 
   handleEnd = (e) => {
