@@ -13,6 +13,9 @@
   width: 460px;
   height: 225px;
 
+  font-family: $font-gsap;
+  font-weight: 600;
+
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
@@ -82,7 +85,7 @@
     @include reset-input;
     @include responsive-font(10, 12);
 
-    padding: 2px 5px;
+    padding: 1px 5px 0;
     margin-left: 15px;
 
     color: #000;
