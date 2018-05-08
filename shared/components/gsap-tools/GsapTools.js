@@ -160,11 +160,11 @@ class GsapTools extends Component {
     this.progress = this.master.time();
   }
 
-  handleInRange = (value) => {
+  handleMarkerInRange = (value) => {
     this.inTime = value;
   }
 
-  handleOutRange = (value) => {
+  handleMarkerRange = (value) => {
     this.outTime = value;
   }
 
@@ -176,7 +176,7 @@ class GsapTools extends Component {
     }
   }
 
-  handleRangeComplete = () => {
+  handleRangeEnd = () => {
     if (this.wasPlaying) {
       this.master.play();
     }
@@ -274,11 +274,11 @@ class GsapTools extends Component {
             <div className={s.gsapTools__timeline}>
               <Range
                 value={this.value}
-                onChange={this.handleRange}
-                onChangeStart={this.handleRangeStart}
-                onChangeComplete={this.handleRangeComplete}
-                onChangeMarkerIn={this.handleInRange}
-                onChangeMarkerOut={this.handleOutRange}
+                onDrag={this.handleRange}
+                onDragStart={this.handleRangeStart}
+                onDragEnd={this.handleRangeEnd}
+                onDragMarkerIn={this.handleMarkerInRange}
+                onDragMarkerOut={this.handleMarkerRange}
               />
             </div>
           </section>

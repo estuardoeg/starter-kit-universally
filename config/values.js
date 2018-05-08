@@ -196,7 +196,11 @@ const values = {
     childSrc: [],
     connectSrc: ['ws:', 'swapi.co'],
     defaultSrc: [],
-    fontSrc: ['fonts.googleapis.com/css', 'fonts.gstatic.com'],
+    fontSrc: [
+      'fonts.googleapis.com/css',
+      'fonts.gstatic.com',
+      '*.amazonaws.com',
+    ],
     imgSrc: [
       '*.facebook.com',
       '*.google-analytics.com',
