@@ -103,7 +103,7 @@ class GsapTools extends Component {
     this.setup(props);
   }
 
-  onChange = ({ currentTarget }) => {
+  handleList = ({ currentTarget }) => {
     const active = this.props.listener.active(currentTarget.value);
 
     this.active = active;
@@ -115,6 +115,10 @@ class GsapTools extends Component {
 
     this.playIcon = false;
     this.value = 0;
+  }
+
+  handleTimeScale = ({ currentTarget }) => {
+    this.master.timeScale(currentTarget.value);
   }
 
   handleRewind = () => {
@@ -199,7 +203,7 @@ class GsapTools extends Component {
           <header className={s.gsapTools__header}>
             {listener.timelines.size > 0 ? (
               <div className={s.gsapTools__list}>
-                <select className={s.gsapTools__select} onChange={this.onChange}>
+                <select className={s.gsapTools__select} onChange={this.handleList}>
                   {listener.keys.map((g, i) => (
                     <option
                       key={i} // eslint-disable-line
@@ -221,6 +225,14 @@ class GsapTools extends Component {
             <p className={s.gsapTools__duration}>
               <span>{round(this.progress)}</span> / {round(this.active._totalDuration)}
             </p>
+
+            <select className={s.gsapTools__scale} onChange={this.handleTimeScale} defaultValue={1}>
+              <option value="0.2">0.2x</option>
+              <option value="0.5">0.5x</option>
+              <option value="1">1x</option>
+              <option value="2">2x</option>
+              <option value="5">5x</option>
+            </select>
 
             <button className={s.gsapTools__cross} onClick={this.handleClose}>
               <svg width="11" height="11" viewBox="0 0 11 11">
