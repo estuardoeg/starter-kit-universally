@@ -45,6 +45,7 @@
     height: 20px;
 
     cursor: ew-resize;
+    user-select: none;
 
     background-color: #fff;
     border-radius: 50%;
@@ -63,6 +64,7 @@
     height: 12px;
 
     overflow: hidden;
+    user-select: none;
 
     background-color: #f7f9fa;
     border-radius: 12px;

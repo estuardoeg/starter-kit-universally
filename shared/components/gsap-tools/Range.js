@@ -9,6 +9,7 @@ import s from './Range.scss';
 const HANDLE_WIDTH = 20;
 const HANDLE_MEDIAN_WIDTH = HANDLE_WIDTH / 2;
 const MARKER_WIDTH = 10;
+const MARKER_MEDIAN_WIDTH = MARKER_WIDTH / 2;
 
 export default class Range extends PureComponent {
 
@@ -27,14 +28,7 @@ export default class Range extends PureComponent {
 
   markerIn = 0
   markerOut = 0
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      limit: 0,
-    };
-  }
+  widthWithoutHandle = 0
 
   componentDidMount() {
     this.handleUpdate();
@@ -48,12 +42,37 @@ export default class Range extends PureComponent {
     });
   }
 
+  componentWillReceiveProps(props) {
+    if (props.value !== this.props.value) {
+      this.updateFill(props);
+    }
+  }
+
   get calculateFillWidth() {
     if (!this.range) {
       return;
     }
 
     return (this.markerOut + MARKER_WIDTH) - this.markerIn;
+  }
+
+  updateFill = ({ onDrag, value }) => {
+    if (!onDrag || !this.fill || !this.handle) {
+      return;
+    }
+
+    const { offsetWidth: rw } = this.range;
+    const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
+
+    TweenLite.set(
+      this.fill,
+      { width: val },
+    );
+
+    TweenLite.set(
+      this.handle,
+      { left: val > MARKER_MEDIAN_WIDTH ? val : MARKER_MEDIAN_WIDTH },
+    );
   }
 
   handleUpdate = () => {
@@ -64,7 +83,7 @@ export default class Range extends PureComponent {
     const { offsetWidth: rw } = this.range;
     const { offsetWidth: hw } = this.handle;
 
-    this.setState({ limit: rw - hw });
+    this.widthWithoutHandle = rw - hw;
   }
 
   handleStart = (e) => {
@@ -210,19 +229,10 @@ export default class Range extends PureComponent {
     );
   }
 
-  getPositionFromValue = (value) => {
-    const { limit } = this.state;
-    const percentage = value / 100;
-    const val = Math.round(percentage * limit);
-
-    return val;
-  }
-
   getValueFromPosition = (pos) => {
-    const { limit } = this.state;
-    const percentage = clamp(pos, 0, limit) / (limit || 1);
+    const value = clamp(pos, 0, this.widthWithoutHandle) / (this.widthWithoutHandle || 1);
 
-    return Math.round(percentage * 100);
+    return Math.round(value * 100);
   }
 
   position = (e) => {
@@ -233,22 +243,7 @@ export default class Range extends PureComponent {
     return this.getValueFromPosition(pos);
   }
 
-  coordinates = (pos) => {
-    const value = this.getValueFromPosition(pos);
-    const position = this.getPositionFromValue(value);
-
-    return position + HANDLE_MEDIAN_WIDTH;
-  }
-
   render() {
-    const { value } = this.props;
-
-    // TODO: Move handle with gsap instead
-    const position = this.getPositionFromValue(value);
-    const coords = this.coordinates(position);
-    const fillStyle = { width: `${coords}px` };
-    const handleStyle = { left: `${coords}px` };
-
     return (
       <div className={s.range}>
         <button
@@ -279,7 +274,6 @@ export default class Range extends PureComponent {
           onMouseDown={this.handleStart}
           onTouchMove={this.handleDrag}
           onTouchEnd={this.handleEnd}
-          style={handleStyle}
         />
 
         <div // eslint-disable-line
@@ -294,7 +288,6 @@ export default class Range extends PureComponent {
           <div
             ref={(c) => { this.fill = c; }}
             className={s.range__fill}
-            style={fillStyle}
           />
         </div>
       </div>
