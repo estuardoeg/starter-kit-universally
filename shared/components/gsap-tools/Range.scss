@@ -3,34 +3,6 @@
 .range {
   position: relative;
 
-  &__input {
-    position: relative;
-
-    height: 12px;
-
-    background-color: #f7f9fa;
-    border-radius: 12px;
-
-    touch-action: none;
-
-    &:focus {
-      box-shadow: none;
-      outline: none;
-    }
-  }
-
-  &__fill {
-    display: block;
-
-    position: relative;
-    top: 0;
-
-    height: 100%;
-
-    background-color: #3ec2f1;
-    border-radius: 10px;
-  }
-
   &__markers {
     @include reset-button;
 
@@ -67,6 +39,7 @@
 
     position: absolute;
     top: 50%;
+    z-index: 10;
 
     width: 20px;
     height: 20px;
@@ -82,5 +55,35 @@
     .rangeslider__active {
       opacity: 1;
     }
+  }
+
+  &__input {
+    position: relative;
+
+    height: 12px;
+
+    overflow: hidden;
+
+    background-color: #f7f9fa;
+    border-radius: 12px;
+
+    touch-action: none;
+
+    &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+  }
+
+  &__fill {
+    display: block;
+
+    position: relative;
+    top: 0;
+
+    height: 100%;
+
+    background-color: #3ec2f1;
+    border-radius: 10px;
   }
 }

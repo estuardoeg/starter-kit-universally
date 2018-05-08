@@ -187,6 +187,29 @@ export default class Range extends PureComponent {
     }
   }
 
+  handleMarkersDoubleClick = () => {
+    this.markerIn = 0;
+    this.markerOut = this.range.offsetWidth;
+
+    TweenLite.set(
+      this.rangeIn,
+      { left: 0 },
+    );
+
+    TweenLite.set(
+      this.rangeOut,
+      { right: 0 },
+    );
+
+    TweenLite.set(
+      this.fill,
+      {
+        left: 0,
+        width: this.calculateFillWidth,
+      },
+    );
+  }
+
   getPositionFromValue = (value) => {
     const { limit } = this.state;
     const percentage = value / 100;
@@ -232,6 +255,7 @@ export default class Range extends PureComponent {
           ref={(c) => { this.rangeIn = c; }}
           className={s(s.range__markers, s.range__markersIn)}
           onMouseDown={this.handleMarkerInDragStart}
+          onDoubleClick={this.handleMarkersDoubleClick}
         >
           <svg width="10" height="18" viewBox="0 0 10 18">
             <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
@@ -242,11 +266,21 @@ export default class Range extends PureComponent {
           ref={(c) => { this.rangeOut = c; }}
           className={s(s.range__markers, s.range__markersOut)}
           onMouseDown={this.handleMarkerOutDragStart}
+          onDoubleClick={this.handleMarkersDoubleClick}
         >
           <svg width="10" height="18" viewBox="0 0 10 18">
             <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
           </svg>
         </button>
+
+        <button
+          ref={(c) => { this.handle = c; }}
+          className={s.range__handle}
+          onMouseDown={this.handleStart}
+          onTouchMove={this.handleDrag}
+          onTouchEnd={this.handleEnd}
+          style={handleStyle}
+        />
 
         <div // eslint-disable-line
           ref={(c) => { this.range = c; }}
@@ -261,15 +295,6 @@ export default class Range extends PureComponent {
             ref={(c) => { this.fill = c; }}
             className={s.range__fill}
             style={fillStyle}
-          />
-
-          <button
-            ref={(c) => { this.handle = c; }}
-            className={s.range__handle}
-            onMouseDown={this.handleStart}
-            onTouchMove={this.handleDrag}
-            onTouchEnd={this.handleEnd}
-            style={handleStyle}
           />
         </div>
       </div>
