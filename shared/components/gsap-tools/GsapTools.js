@@ -89,6 +89,7 @@ class GsapTools extends Component {
           if (this.isLoop) {
             this.master.restart();
           } else if (this.master.totalProgress() === 1) {
+            this.master.pause();
             this.playIcon = true;
           }
         },
