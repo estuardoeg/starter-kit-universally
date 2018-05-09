@@ -220,8 +220,16 @@ export default class Range extends PureComponent {
   }
 
   handleMarkersDoubleClick = () => {
+    const { onDrag } = this.props;
+
+    if (!onDrag) {
+      return;
+    }
+
     this.markerIn = 0;
     this.markerOut = this.range.offsetWidth;
+
+    onDrag(0);
 
     TweenLite.set(
       this.rangeIn,
@@ -237,7 +245,7 @@ export default class Range extends PureComponent {
       this.fill,
       {
         left: 0,
-        width: this.calculateFillWidth,
+        width: 0,
       },
     );
   }
