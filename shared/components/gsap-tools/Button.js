@@ -14,7 +14,7 @@ export default class Button extends PureComponent {
   render() {
     const { handleUIClose, visible, onClick } = this.props;
 
-    if (!onClick) {
+    if (onClick) {
       return null;
     }
 

@@ -10,7 +10,7 @@ export default class Header extends PureComponent {
   static propTypes = {
     headerRef: PropTypes.func,
     onMouseDown: PropTypes.func,
-    keys: PropTypes.object,
+    keys: PropTypes.array,
     handleList: PropTypes.func,
     handleTimeScale: PropTypes.func,
     handleUIClose: PropTypes.func,

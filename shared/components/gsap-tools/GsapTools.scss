@@ -29,7 +29,7 @@
     transform: scale(0.6);
     transform-origin: 100% 100%;
 
-    .visible & {
+    &.visible {
       opacity: 1;
 
       transform: scale(1);
