@@ -124,9 +124,15 @@ class GsapTools extends Component {
 
   handleRewind = () => {
     if (this.master.paused()) {
-      this.master.seek(0);
-      this.value = 0;
       this.playIcon = true;
+
+      if (this.markerIn > 0) {
+        this.master.seek(this.markerIn);
+        this.value = this.markerIn;
+      } else {
+        this.master.seek(0);
+        this.value = 0;
+      }
     } else {
       this.master.restart();
       this.playIcon = false;
@@ -161,11 +167,16 @@ class GsapTools extends Component {
   }
 
   handleMarkerInRange = (value) => {
-    this.inTime = value;
+    this.markerIn = value;
+    this.master.startTime((this.master.totalDuration() * value) / 100);
   }
 
   handleMarkerRange = (value) => {
-    this.outTime = value;
+    const currentTime = this.master.time();
+    const newTime = currentTime - ((this.master.totalDuration() * value) / 100);
+
+    this.markerOut = value;
+    this.master.totalTime(newTime);
   }
 
   handleRangeStart = () => {

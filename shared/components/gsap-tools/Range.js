@@ -64,9 +64,15 @@ export default class Range extends PureComponent {
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
 
+    if (val <= this.markerIn || val >= (this.markerOut + 7.5)) {
+      return;
+    }
+
+    const width = this.markerIn > 0 ? val - this.markerIn : val;
+
     TweenLite.set(
       this.fill,
-      { width: val },
+      { width },
     );
 
     TweenLite.set(
@@ -105,7 +111,12 @@ export default class Range extends PureComponent {
       return;
     }
 
-    const value = this.position(e);
+    const pos = this.position(e);
+    const value = this.getValueFromPosition(pos);
+
+    if (pos <= this.markerIn || pos >= this.markerOut) {
+      return;
+    }
 
     onDrag(value);
 
@@ -140,19 +151,20 @@ export default class Range extends PureComponent {
   }
 
   handleMarkerInDrag = (e) => {
-    const { onDragMarkerIn } = this.props;
+    const { onDrag, onDragMarkerIn } = this.props;
 
-    if (!onDragMarkerIn) {
+    if (!onDrag) {
       return;
     }
 
-    const value = this.position(e);
+    const value = this.getValueFromPosition(this.position(e));
     const { offsetWidth: rw } = this.range;
     const left = (value * (rw - MARKER_WIDTH)) / 100;
 
     this.markerIn = left;
 
     if (left < (this.markerOut - MARKER_WIDTH)) {
+      onDrag(value);
       onDragMarkerIn(value);
 
       TweenLite.set(
@@ -164,7 +176,7 @@ export default class Range extends PureComponent {
         this.fill,
         {
           left,
-          width: this.calculateFillWidth,
+          width: 0,
         },
       );
     }
@@ -178,13 +190,13 @@ export default class Range extends PureComponent {
   }
 
   handleMarkerDragOut = (e) => {
-    const { onDragMarkerOut } = this.props;
+    const { onDrag, onDragMarkerOut } = this.props;
 
-    if (!onDragMarkerOut) {
+    if (!onDrag) {
       return;
     }
 
-    const value = this.position(e);
+    const value = this.getValueFromPosition(this.position(e));
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_WIDTH)) / 100;
     const right = (rw - MARKER_WIDTH) - val;
@@ -192,6 +204,7 @@ export default class Range extends PureComponent {
     this.markerOut = val;
 
     if (val >= (this.markerIn + MARKER_WIDTH)) {
+      onDrag(value);
       onDragMarkerOut(value);
 
       TweenLite.set(
@@ -238,9 +251,8 @@ export default class Range extends PureComponent {
   position = (e) => {
     const coordinate = !e.touches ? e.clientX : e.touches[0].clientX;
     const { left } = this.range.getBoundingClientRect();
-    const pos = coordinate - left - HANDLE_MEDIAN_WIDTH;
 
-    return this.getValueFromPosition(pos);
+    return coordinate - left - HANDLE_MEDIAN_WIDTH;
   }
 
   render() {
