@@ -120,9 +120,9 @@ class GsapTools extends Component {
     if (this.master.paused()) {
       this.playIcon = true;
 
-      if (this.markerIn > 0) {
-        this.master.seek(this.markerIn);
-        this.value = this.markerIn;
+      if (this.inTime > 0) {
+        this.master.seek(this.inTime);
+        this.value = this.inTime;
       } else {
         this.master.seek(0);
         this.value = 0;
@@ -161,16 +161,11 @@ class GsapTools extends Component {
   }
 
   handleMarkerInRange = (value) => {
-    this.markerIn = value;
-    this.master.startTime((this.master.totalDuration() * value) / 100);
+    this.inTime = value;
   }
 
   handleMarkerRange = (value) => {
-    const currentTime = this.master.time();
-    const newTime = currentTime - ((this.master.totalDuration() * value) / 100);
-
-    this.markerOut = value;
-    this.master.totalTime(newTime);
+    this.outTime = value;
   }
 
   handleRangeStart = () => {
