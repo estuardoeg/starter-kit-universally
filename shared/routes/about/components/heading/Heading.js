@@ -8,7 +8,6 @@ import s from './Heading.scss';
 export default class Heading extends PureComponent {
 
   static propTypes = {
-    listener: PropTypes.object,
     heading: PropTypes.bool,
     copy: PropTypes.string,
   }

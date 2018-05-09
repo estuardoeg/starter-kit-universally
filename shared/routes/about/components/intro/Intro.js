@@ -8,7 +8,6 @@ import s from './Intro.scss';
 export default class Intro extends PureComponent {
 
   static propTypes = {
-    listener: PropTypes.object,
     heading: PropTypes.string,
     copy: PropTypes.string,
     intro: PropTypes.bool,
