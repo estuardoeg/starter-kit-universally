@@ -54,7 +54,7 @@ export default class GsapToolsContainer extends Component {
         )}
 
         <GsapTools
-          onClick={this.onToggleGsapTools}
+          // onClick={this.onToggleGsapTools}
           isVisible={visible}
         />
       </Fragment>
