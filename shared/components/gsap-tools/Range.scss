@@ -3,6 +3,8 @@
 .range {
   position: relative;
 
+  margin-top: auto;
+
   &__markers {
     @include reset-button;
 
