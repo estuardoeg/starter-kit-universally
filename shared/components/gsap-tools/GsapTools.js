@@ -6,31 +6,11 @@ import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { TimelineLite, TweenLite } from 'gsap';
 
+import round from './round';
 import Range from './Range';
 import s from './GsapTools.scss';
 
 const PADDING = 20;
-
-function round(number) {
-  if (!number) {
-    return '0.00';
-  }
-
-  const nbr = Number(Math.round(`${number}e2`) + 'e-2'); // eslint-disable-line
-  const { length } = nbr.toString();
-
-  let val;
-
-  if (length === 3) {
-    val = `${nbr}0`;
-  } else if (length === 1) {
-    val = `${nbr}.00`;
-  } else {
-    val = nbr;
-  }
-
-  return val;
-}
 
 class GsapTools extends Component {
 
@@ -123,7 +103,7 @@ class GsapTools extends Component {
     );
   }
 
-  handleClose = () => {
+  handleUIClose = () => {
     const { onClick, isVisible } = this.props;
 
     if (onClick) {
@@ -134,7 +114,7 @@ class GsapTools extends Component {
     this.isVisible = !this.isVisible;
   }
 
-  position = (e) => {
+  mouseEvent = (e) => {
     const x = !e.touches ? e.clientX : e.touches[0].clientX;
     const y = !e.touches ? e.clientY : e.touches[0].clientY;
 
@@ -144,15 +124,15 @@ class GsapTools extends Component {
     };
   }
 
-  handleDragStartPosition = (e) => {
+  handleUIBoxPosition = (e) => {
     const { width: hw, height: hh, top: ht, left: hl } = this.header.getBoundingClientRect();
     const { width: cw, height: ch, top: ct, left: cl } = this.container.getBoundingClientRect();
 
-    const x = hw - (hw - (this.position(e).x - hl));
-    const y = hh - (hh - (this.position(e).y - ht));
+    const x = hw - (hw - (this.mouseEvent(e).x - hl));
+    const y = hh - (hh - (this.mouseEvent(e).y - ht));
 
-    const top = ch - (ch - (this.position(e).y - ct));
-    const left = cw - (cw - (this.position(e).x - cl));
+    const top = ch - (ch - (this.mouseEvent(e).y - ct));
+    const left = cw - (cw - (this.mouseEvent(e).x - cl));
     const right = cw - left;
     const bottom = ch - top;
 
@@ -166,19 +146,19 @@ class GsapTools extends Component {
     };
   }
 
-  handleUIStart = (e) => {
-    this.handleDragStartPosition(e);
+  handleUIBox = (e) => {
+    this.handleUIBoxPosition(e);
 
-    document.addEventListener('mousemove', this.handleUIDrag);
-    document.addEventListener('mouseup', this.handleUIEnd);
+    document.addEventListener('mousemove', this.handleUIBoxDrag);
+    document.addEventListener('mouseup', this.handleUIBoxEnd);
   }
 
-  handleUIDrag = (e) => {
+  handleUIBoxDrag = (e) => {
     if (!this.container) {
       return;
     }
 
-    const pos = this.position(e);
+    const pos = this.mouseEvent(e);
     const { innerWidth, innerHeight } = window;
     const { top, right, bottom, left, x, y } = this.drag;
 
@@ -200,9 +180,9 @@ class GsapTools extends Component {
     );
   }
 
-  handleUIEnd = () => {
-    document.removeEventListener('mousemove', this.handleUIDrag);
-    document.removeEventListener('mouseup', this.handleUIEnd);
+  handleUIBoxEnd = () => {
+    document.removeEventListener('mousemove', this.handleUIBoxDrag);
+    document.removeEventListener('mouseup', this.handleUIBoxEnd);
   }
 
   /*
@@ -307,7 +287,7 @@ class GsapTools extends Component {
           <div className={s.gsapTools__box}>
             <header // eslint-disable-line
               className={s.gsapTools__header}
-              onMouseDown={this.handleUIStart}
+              onMouseDown={this.handleUIBox}
               ref={(c) => { this.header = c; }}
             >
               {listener.timelines.size > 0 ? (
@@ -347,7 +327,7 @@ class GsapTools extends Component {
                 <option value="5">5x</option>
               </select>
 
-              <button className={s.gsapTools__cross} onClick={this.handleClose}>
+              <button className={s.gsapTools__cross} onClick={this.handleUIClose}>
                 <svg width="11" height="11" viewBox="0 0 11 11">
                   <path fill="#fff" d="M10.9,10.1c0.2,0.2,0.2,0.5,0,0.7C10.8,11,10.6,11,10.5,11s-0.3,0-0.4-0.1L5.5,6.2l-4.6,4.6C0.8,11,0.6,11,0.5,11s-0.3,0-0.4-0.1c-0.2-0.2-0.2-0.5,0-0.7l4.6-4.6L0.1,0.9C0,0.7,0,0.3,0.1,0.1s0.5-0.2,0.7,0l4.6,4.6l4.6-4.6c0.2-0.2,0.5-0.2,0.7,0s0.2,0.5,0,0.7L6.2,5.5L10.9,10.1z" />
                 </svg>
@@ -399,7 +379,7 @@ class GsapTools extends Component {
           {!onClick && (
             <button
               className={s.gsapTools__toggle}
-              onClick={this.handleClose}
+              onClick={this.handleUIClose}
             >
               GSAP
             </button>
