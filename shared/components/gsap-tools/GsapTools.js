@@ -54,12 +54,6 @@ class GsapTools extends Component {
   value;
 
   @observable
-  inTime;
-
-  @observable
-  outTime;
-
-  @observable
   isLoop = false;
 
   constructor(props) {

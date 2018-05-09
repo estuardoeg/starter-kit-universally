@@ -64,7 +64,7 @@ export default class Range extends PureComponent {
     const { offsetWidth: rw } = this.range;
     const val = (value * (rw - MARKER_MEDIAN_WIDTH)) / 100;
 
-    if (val <= this.markerIn || val >= (this.markerOut + 7.5)) {
+    if (val < this.markerIn || val > (this.markerOut + 7.5)) {
       return;
     }
 
@@ -256,29 +256,35 @@ export default class Range extends PureComponent {
   }
 
   render() {
+    const { onDragMarkerIn, onDragMarkerOut } = this.props;
+
     return (
       <div className={s.range}>
-        <button
-          ref={(c) => { this.rangeIn = c; }}
-          className={s(s.range__markers, s.range__markersIn)}
-          onMouseDown={this.handleMarkerInDragStart}
-          onDoubleClick={this.handleMarkersDoubleClick}
-        >
-          <svg width="10" height="18" viewBox="0 0 10 18">
-            <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
-          </svg>
-        </button>
+        {onDragMarkerIn && (
+          <button
+            ref={(c) => { this.rangeIn = c; }}
+            className={s(s.range__markers, s.range__markersIn)}
+            onMouseDown={this.handleMarkerInDragStart}
+            onDoubleClick={this.handleMarkersDoubleClick}
+          >
+            <svg width="10" height="18" viewBox="0 0 10 18">
+              <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
+            </svg>
+          </button>
+        )}
 
-        <button
-          ref={(c) => { this.rangeOut = c; }}
-          className={s(s.range__markers, s.range__markersOut)}
-          onMouseDown={this.handleMarkerOutDragStart}
-          onDoubleClick={this.handleMarkersDoubleClick}
-        >
-          <svg width="10" height="18" viewBox="0 0 10 18">
-            <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
-          </svg>
-        </button>
+        {onDragMarkerOut && (
+          <button
+            ref={(c) => { this.rangeOut = c; }}
+            className={s(s.range__markers, s.range__markersOut)}
+            onMouseDown={this.handleMarkerOutDragStart}
+            onDoubleClick={this.handleMarkersDoubleClick}
+          >
+            <svg width="10" height="18" viewBox="0 0 10 18">
+              <path fille="#cad5db" d="M5.8,17.7c-0.4,0.4-0.9,0.4-1.3,0L0,13.3V1c0-0.6,0.4-1,1-1h8c0.6,0,1,0.4,1,1v12.3L5.8,17.7z" />
+            </svg>
+          </button>
+        )}
 
         <button
           ref={(c) => { this.handle = c; }}
