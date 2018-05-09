@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TimelineLite } from 'gsap';
+import TimelineLite from 'gsap/TimelineLite';
 import { add, remove } from 'gsap-tools';
 
 import s from './Heading.scss';
