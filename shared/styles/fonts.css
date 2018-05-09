@@ -1,10 +1,1 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i');
-
-@font-face {
-  font-family: 'Akagi Pro';
-  font-style: normal;
-  font-weight: 600;
-  src:
-    url('https://s3-us-west-1.amazonaws.com/cdn-ueno-co/fonts/akagi-pro/akagi-pro-medium.woff2') format('woff2'),
-    url('https://s3-us-west-1.amazonaws.com/cdn-ueno-co/fonts/akagi-pro/akagi-pro-medium.woff') format('woff');
-}

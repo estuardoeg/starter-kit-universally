@@ -199,7 +199,6 @@ const values = {
     fontSrc: [
       'fonts.googleapis.com/css',
       'fonts.gstatic.com',
-      '*.amazonaws.com',
     ],
     imgSrc: [
       '*.facebook.com',
