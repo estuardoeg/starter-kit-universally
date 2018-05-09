@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap';
-import { inject, observer } from 'mobx-react';
+import { add, remove } from 'gsap-tools';
 
 import s from './Heading.scss';
 
-class Heading extends Component {
+export default class Heading extends PureComponent {
 
   static propTypes = {
     listener: PropTypes.object,
@@ -53,13 +53,14 @@ class Heading extends Component {
     );
 
     this.timeline = timeline;
-    this.props.listener.add(this.timeline);
+
+    add(this.timeline);
 
     return timeline;
   }
 
   componentWillUnmount() {
-    this.props.listener.clear(this.timeline);
+    remove(this.timeline);
   }
 
   render() {
@@ -75,5 +76,3 @@ class Heading extends Component {
     );
   }
 }
-
-export default inject('listener')(observer(Heading));

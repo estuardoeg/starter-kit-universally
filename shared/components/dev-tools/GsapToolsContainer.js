@@ -2,8 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-
-import GsapTools from 'components/gsap-tools';
+import GsapTools from 'gsap-tools';
 
 import s from './GsapToolsContainer.scss';
 
