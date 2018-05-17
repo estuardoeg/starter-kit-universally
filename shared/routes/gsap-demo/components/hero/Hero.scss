@@ -1,0 +1,59 @@
+@import '~styles/config';
+
+.hero {
+  $width: 1670px;
+  $height: 1180px;
+
+  position: relative;
+
+  min-height: 400px;
+  max-height: 90vh;
+  overflow: hidden;
+
+  background: #f9f9f9;
+
+  &::before {
+    content: '';
+
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__inner {
+    @include fit;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    perspective: 600;
+  }
+
+  &__svg {
+    @include fit;
+    z-index: 0;
+    min-width: 100%;
+    height: 100%;
+
+    overflow: visible;
+
+    circle {
+      @include will-animate;
+    }
+  }
+
+  &__logo {
+    display: block;
+
+    margin: auto;
+
+    width: 70%;
+    min-width: 0;
+    height: auto;
+  }
+
+
+  &__container {
+    @include container;
+  }
+}

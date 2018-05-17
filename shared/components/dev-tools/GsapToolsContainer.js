@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import GsapTools from 'gsap-tools';
+import GsapTools from 'gsap-tools'; // eslint-disable-line
 
 import s from './GsapToolsContainer.scss';
 
@@ -14,10 +14,13 @@ export default class GsapToolsContainer extends Component {
 
   static propTypes = {
     noPanel: PropTypes.bool,
+    isVisible: PropTypes.bool,
+    isFixed: PropTypes.bool,
   }
 
   static defaultProps = {
     noPanel: true,
+    isFixed: true,
   }
 
   @observable
@@ -32,7 +35,7 @@ export default class GsapToolsContainer extends Component {
   }
 
   setup = () => {
-    this.isVisible = localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true';
+    this.isVisible = !this.props.isVisible && localStorage.getItem(LOCAL_STORAGE_GSAPTOOLS) === 'true';
   }
 
   onToggleGsapTools = () => {
@@ -41,8 +44,8 @@ export default class GsapToolsContainer extends Component {
   }
 
   render() {
-    const { noPanel } = this.props;
-    const visible = this.isVisible;
+    const { noPanel, isFixed } = this.props;
+    const visible = this.props.isVisible || this.isVisible;
 
     return (
       <Fragment>
@@ -55,6 +58,7 @@ export default class GsapToolsContainer extends Component {
         <GsapTools
           onClick={this.onToggleGsapTools}
           isVisible={visible}
+          isFixed={isFixed}
         />
       </Fragment>
     );
