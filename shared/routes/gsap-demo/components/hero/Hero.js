@@ -53,7 +53,7 @@ export default class Hero extends PureComponent {
       .set(logoPath, { autoAlpha: 0, drawSVG: 0, fill: 'transparent', stroke: '#ccc' })
       .to(logoPath, 0.25, { autoAlpha: 1, ease })
       .to(logoPath, 1.5, { drawSVG: '100%', ease }, 'start+=0.25')
-      .staggerTo(logoPath, 0.75, { fill: '#333', ease: 'Power4.easeOut' }, 0.2)
+      .staggerTo(logoPath, 0.75, { fill: '#000', ease: 'Power4.easeOut' }, 0.2)
       .staggerTo(logoPath, 0.3, { stroke: 'transparent', ease }, 0.2, 'start+=2');
 
     this.mainTimeline
