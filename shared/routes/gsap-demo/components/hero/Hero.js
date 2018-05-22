@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import TimelineLite from 'gsap/TimelineLite';
-import 'lib/DrawSVGPlugin';
 import { add } from 'gsap-tools'; // eslint-disable-line
 
 import s from './Hero.scss';
@@ -17,22 +16,20 @@ export default class Hero extends PureComponent {
     children: undefined,
   }
 
-  buildTimelines = () => {
-    TimelineLite.defaultEase = 'Power2.easeIn';
+  animate = () => {
+    const mainTimeline = new TimelineLite({ id: 'Everything' });
+    const greyCirclesTimeline = new TimelineLite({ id: 'Grey Circles' });
+    const circlesTimeline = new TimelineLite({ id: 'Circles' });
+    const logoTimeline = new TimelineLite({ id: 'Logo' });
 
-    this.mainTimeline = new TimelineLite({ id: 'Everything' });
-    this.greyCirclesTimeline = new TimelineLite({ id: 'Grey Circles' });
-    this.circlesTimeline = new TimelineLite({ id: 'Circles' });
-    this.logoTimeline = new TimelineLite({ id: 'Logo' });
-
-    this.mainTimeline.addLabel('start');
+    mainTimeline.addLabel('start');
 
     const greyCircle = this.greyCircles.childNodes;
     const circle = this.circles.childNodes;
     const logoPath = this.logo.childNodes;
     const ease = 'Linear.easeNone';
 
-    this.greyCirclesTimeline
+    greyCirclesTimeline
       .addLabel('start')
       .to(greyCircle, 0.3, { autoAlpha: 1, ease }, 'start')
       .to(greyCircle, 0.5, { scale: 1, ease }, 'start')
@@ -40,7 +37,7 @@ export default class Hero extends PureComponent {
       .to(greyCircle, 0.25, { scale: 0.95, ease }, 'start+=0.5')
       .to(greyCircle, 0.5, { scale: 1 }, 'start+=0.75');
 
-    this.circlesTimeline
+    circlesTimeline
       .addLabel('start')
       .to(circle, 0.3, { autoAlpha: 1, ease }, 'start')
       .to(circle, 0.5, { scale: 1, ease }, 'start')
@@ -48,28 +45,30 @@ export default class Hero extends PureComponent {
       .to(circle, 0.25, { scale: 0.85, ease }, 'start+=0.5')
       .to(circle, 0.5, { scale: 1 }, 'start+=0.75');
 
-    this.logoTimeline
+    logoTimeline
       .addLabel('start')
-      .set(logoPath, { autoAlpha: 0, drawSVG: 0, fill: 'transparent', stroke: '#ccc' })
+      .set(logoPath, { autoAlpha: 0, strokeDashoffset: 1500, strokeDasharray: '0px, 999999px', fill: 'transparent', stroke: '#ccc' })
       .to(logoPath, 0.25, { autoAlpha: 1, ease })
-      .to(logoPath, 1.5, { drawSVG: '100%', ease }, 'start+=0.25')
-      .staggerTo(logoPath, 0.75, { fill: '#000', ease: 'Power4.easeOut' }, 0.2)
-      .staggerTo(logoPath, 0.3, { stroke: 'transparent', ease }, 0.2, 'start+=2');
+      .staggerTo(logoPath, 1.5, { strokeDashoffset: 0, strokeDasharray: '1500px, 1500px', ease }, 0.15, 'start+=0.25')
+      .addLabel('endDraw')
+      .staggerTo(logoPath, 0.5, { fill: '#000', ease: 'Power2.easeIn' }, 0.2)
+      .staggerTo(logoPath, 0.3, { stroke: 'transparent', ease }, 0.2, 'endDraw+=0.2');
 
-    this.mainTimeline
+    mainTimeline
       .set([greyCircle, circle], { autoAlpha: 0, scale: 0.2, y: '-150%', transformOrigin: 'center' })
-      .add(this.circlesTimeline, 'start')
-      .add(this.greyCirclesTimeline, 'start+=0.5')
-      .add(this.logoTimeline, 'start');
+      .add(circlesTimeline, 'start')
+      .add(greyCirclesTimeline, 'start+=0.5')
+      .add(logoTimeline, 'start');
 
-    this.disposer1 = add(this.mainTimeline);
-    this.disposer2 = add(this.greyCirclesTimeline);
-    this.disposer3 = add(this.circlesTimeline);
+    this.disposer1 = add(mainTimeline);
+    this.disposer2 = add(greyCirclesTimeline);
+    this.disposer3 = add(circlesTimeline);
+    this.disposer4 = add(logoTimeline);
   }
 
   componentDidMount() {
     setTimeout(() => {
-      this.buildTimelines();
+      this.animate();
     }, 1000);
   }
 
@@ -77,6 +76,7 @@ export default class Hero extends PureComponent {
     this.disposer1();
     this.disposer2();
     this.disposer3();
+    this.disposer4();
   }
 
   render() {
@@ -88,24 +88,27 @@ export default class Hero extends PureComponent {
 
           <svg className={s.hero__svg} viewBox="0 0 1670 1180">
 
-            <linearGradient id="gradient-blue" x1="0%" y1="57%" x2="81%" y2="0%">
-              <stop offset="0%" stopColor="#34c1fc" />
-              <stop offset="100%" stopColor="#8ed8f7" />
-            </linearGradient>
-            <linearGradient id="gradient-pink" x1="94%" y1="106%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="#e888ff" />
-              <stop offset="100%" stopColor="#cf5eea" />
-            </linearGradient>
-
-            <linearGradient id="gradient-green" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#1de1ae" />
-              <stop offset="100%" stopColor="#cbf9ed" />
-            </linearGradient>
+            <radialGradient id="gradient-blue" cx="20%" cy="20%" r="50%">
+              <stop offset="0%" stopColor="#8ed8f7" />
+              <stop offset="100%" stopColor="#34c1fc" />
+            </radialGradient>
+            <radialGradient id="gradient-pink" cx="20%" cy="20%" r="50%">
+              <stop offset="0%" stopColor="#cf5eea" />
+              <stop offset="100%" stopColor="#e888ff" />
+            </radialGradient>
+            <radialGradient id="gradient-green" cx="20%" cy="20%" r="50%">
+              <stop offset="0%" stopColor="#cbf9ed" />
+              <stop offset="100%" stopColor="#1de1ae" />
+            </radialGradient>
+            <radialGradient id="gradient-grey" cx="20%" cy="20%" r="50%">
+              <stop offset="0%" stopColor="#fff" />
+              <stop offset="100%" stopColor="#eee" />
+            </radialGradient>
 
             <g ref={(el) => { this.greyCircles = el; }}>
-              <circle cx="240" cy="116" r="266" fill="#eee" />
-              <circle cx="1144" cy="165" r="130" fill="#eee" />
-              <circle cx="432" cy="862" r="102" fill="#eee" />
+              <circle cx="240" cy="116" r="266" fill="url(#gradient-grey)" />
+              <circle cx="1144" cy="165" r="130" fill="url(#gradient-grey)" />
+              <circle cx="432" cy="862" r="102" fill="url(#gradient-grey)" />
             </g>
 
             <g ref={(el) => { this.circles = el; }}>
