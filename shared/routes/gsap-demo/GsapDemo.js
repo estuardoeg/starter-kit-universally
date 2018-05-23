@@ -11,7 +11,7 @@ export default class GsapDemo extends PureComponent {
       <div>
         <Helmet title="GSAP tools demo" />
         <Hero>
-          <GsapTools isVisible />
+          <GsapTools isVisible isFixed />
         </Hero>
       </div>
     );

@@ -7,7 +7,7 @@
   position: relative;
 
   min-height: 400px;
-  max-height: 100vh;
+  max-height: calc(100vh - 80px);
   overflow: hidden;
 
   background: #f9f9f9;
@@ -42,13 +42,28 @@
     }
   }
 
-  &__logo {
-    display: block;
+  &__logoWrap {
+    @include fit;
 
     margin: auto;
 
     width: 70%;
-    min-width: 0;
+    height: 0;
+
+    background: #0c0;
+
+    &::before {
+      content: '';
+      display: block;
+      padding-bottom: percentage(270/1175);
+    }
+  }
+
+  &__logo {
+    display: block;
+
+    margin: auto;
+    max-width: 100%;
     height: auto;
   }
 
