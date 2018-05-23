@@ -9,9 +9,9 @@ export default class GsapDemo extends PureComponent {
   render() {
     return (
       <div>
-        <Helmet title="Gsap tools demo" />
+        <Helmet title="GSAP tools demo" />
         <Hero>
-          <GsapTools isVisible noPanel />
+          <GsapTools isVisible />
         </Hero>
       </div>
     );
