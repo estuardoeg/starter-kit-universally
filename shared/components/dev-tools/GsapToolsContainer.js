@@ -15,12 +15,10 @@ export default class GsapToolsContainer extends Component {
   static propTypes = {
     noPanel: PropTypes.bool,
     isVisible: PropTypes.bool,
-    isFixed: PropTypes.bool,
   }
 
   static defaultProps = {
     noPanel: true,
-    isFixed: true,
   }
 
   @observable
@@ -44,7 +42,7 @@ export default class GsapToolsContainer extends Component {
   }
 
   render() {
-    const { noPanel, isFixed } = this.props;
+    const { noPanel } = this.props;
     const visible = this.props.isVisible || this.isVisible;
 
     return (
@@ -58,7 +56,7 @@ export default class GsapToolsContainer extends Component {
         <GsapTools
           onClick={this.onToggleGsapTools}
           isVisible={visible}
-          isFixed={isFixed}
+          isFixed
         />
       </Fragment>
     );
