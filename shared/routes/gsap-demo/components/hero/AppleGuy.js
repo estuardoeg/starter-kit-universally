@@ -12,18 +12,29 @@ export default class AppleGuy extends PureComponent {
 
   get timelineEnter() {
     const t = new TimelineLite();
+    const wave = new TimelineLite();
     const eyes = this.eyes.childNodes;
+
+    wave
+      .to(this.arm, 1, { rotation: 0, immediateRender: false })
+      .to(this.arm, 0.15, { rotation: -20, immediateRender: false })
+      .to(this.arm, 0.15, { rotation: 0, immediateRender: false })
+      .to(this.arm, 0.15, { rotation: -20, immediateRender: false })
+      .to(this.arm, 0.15, { rotation: 0, immediateRender: false });
 
     t
       .addLabel('start')
       .set(this.appleSvg, { y: '125%', transformOrigin: 'center' })
+      .set(this.arm, { rotation: -20, transformOrigin: 'left center' })
       .set(eyes, { xPercent: -50 })
       .to(this.appleGuy, 0.3, { autoAlpha: 1 })
-      .to(this.appleSvg, 0.75, { y: '60%', ease: 'Power4.easeOut' })
+      .to(this.appleSvg, 0.75, { y: '60%', ease: 'Power4.easeOut' }, '-=0.3')
       .addLabel('eyes')
-      .to(eyes, 0.1, { xPercent: -110, ease: 'Power2.easeOut' }, 'eyes+=0.5')
-      .to(eyes, 0.1, { xPercent: 0, ease: 'Power2.easeOut' }, 'eyes+=1.5')
-      .to(this.appleSvg, 1, { yPercent: 0, ease: 'Power4.easeInOut' }, 'eyes+=2.25');
+      .to(eyes, 0.15, { xPercent: -110, ease: 'Power2.easeOut' }, 'eyes+=0.3')
+      .to(eyes, 0.15, { xPercent: 0, ease: 'Power2.easeOut' }, 'eyes+=1.3')
+      .to(this.appleSvg, 1, { yPercent: 0, ease: 'Power4.easeInOut' }, 'eyes+=2.25')
+      .add(wave, 'eyes+=2')
+      .to(this.appleSvg, 0.75, { y: '125%', ease: 'Power4.easeOut' }, '+=0.5');
 
     return t;
   }
@@ -34,7 +45,8 @@ export default class AppleGuy extends PureComponent {
       <div className={s.appleGuy} ref={(el) => { this.appleGuy = el; }}>
         <svg className={s.appleGuy__svg} ref={(el) => { this.appleSvg = el; }} viewBox="0 0 132 200">
           <g fill="#402312">
-            <path d="M110.2 172.6c-.5 0-.9 0-1.3-.1-7.4-1.4-9.2-10.7-9.2-11.1-.2-.9.5-1.9 1.4-2 .9-.2 1.8.5 2 1.4 0 .1 1.4 7.4 6.5 8.3 1.9.4 3.8-.8 5.8-3.6 1.6-2.3 2.5-4.7 2.5-4.8.3-.9 1.3-1.4 2.2-1 .9.3 1.4 1.3 1 2.2 0 .1-1.1 2.9-3 5.6-2.8 4.1-5.7 5.1-7.9 5.1z" />
+            <path ref={(el) => { this.arm = el; }} d="M110.2 172.6c-.5 0-.9 0-1.3-.1-7.4-1.4-9.2-10.7-9.2-11.1-.2-.9.5-1.9 1.4-2 .9-.2 1.8.5 2 1.4 0 .1 1.4 7.4 6.5 8.3 1.9.4 3.8-.8 5.8-3.6 1.6-2.3 2.5-4.7 2.5-4.8.3-.9 1.3-1.4 2.2-1 .9.3 1.4 1.3 1 2.2 0 .1-1.1 2.9-3 5.6-2.8 4.1-5.7 5.1-7.9 5.1z" />
+
             <path d="M34.3 189.8c-1 0-1.7-.8-1.7-1.7 0-.3 0-7.5 1.9-12.8 3.5-9.5 7.4-11.7 7.8-11.9l1.5 3.1s-3.2 1.9-6.1 10C36 181.2 36 188 36 188.1c0 1-.8 1.7-1.7 1.7z" />
             <path d="M63 200h-4.8c-1 0-1.7-.8-1.7-1.7 0-1 .8-1.7 1.7-1.7h2.9l-2.2-24.2c-.1-1 .6-1.8 1.6-1.9 1-.1 1.8.6 1.9 1.6l2.4 26.2c0 .5-.1 1-.4 1.3-.4.2-.9.4-1.4.4z" />
             <path d="M77.5 200h-4.8c-.5 0-1-.2-1.3-.6-.3-.4-.5-.8-.4-1.3l2.4-26.2c.1-1 .9-1.7 1.9-1.6 1 .1 1.7.9 1.6 1.9l-2.2 24.2h2.9c1 0 1.7.8 1.7 1.7-.1 1.1-.8 1.9-1.8 1.9z" />

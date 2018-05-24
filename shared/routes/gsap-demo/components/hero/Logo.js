@@ -34,7 +34,7 @@ export default class Logo extends PureComponent {
   }
 
   get timelineLeave() {
-    const t = new TimelineLite({});
+    const t = new TimelineLite();
 
     const logoPath = this.logo.childNodes;
     const ease = 'Power4.easeInOut';
@@ -51,6 +51,16 @@ export default class Logo extends PureComponent {
       .to(logoPath[3], 1.5, { rotation: 700, x: '600%', y: 600, autoAlpha: 0, ease }, 'start')
       .to(this.dot, 1.5, { x: '-50%', y: '-50%', left: offsetLeft, top: offsetTop, ease }, 'start')
       .to(this.dotInner, 1.5, { scale: 10, fill: '#796d9b', ease }, 'start');
+
+    return t;
+  }
+
+  // scale out circle
+  get timelineFade() {
+    const t = new TimelineLite();
+
+    t
+      .to(this.dotInner, 1.25, { scale: 0, ease: 'Power4.easeOut' });
 
     return t;
   }

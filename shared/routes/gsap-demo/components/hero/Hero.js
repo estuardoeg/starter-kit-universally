@@ -25,6 +25,7 @@ export default class Hero extends PureComponent {
     const circlesTimeline = new TimelineLite({ id: 'Circles' });
     const logoTimeline = new TimelineLite({ id: 'Logo' });
     const appleTimeline = new TimelineLite({ id: 'Apple Guy' });
+    const outroTimeline = new TimelineLite({ id: 'Outro' });
 
     mainTimeline.addLabel('start');
 
@@ -32,11 +33,13 @@ export default class Hero extends PureComponent {
     circlesTimeline.add(this.circles.timelineEnter).add(this.circles.timelineLeave);
     logoTimeline.add(this.logo.timelineEnter).add(this.logo.timelineLeave, '+=0.75');
     appleTimeline.add(this.apple.timelineEnter);
+    outroTimeline.add(this.logo.timelineFade);
 
     mainTimeline
       .add(circlesTimeline, 'start')
       .add(logoTimeline, 'start')
-      .add(appleTimeline);
+      .add(appleTimeline)
+      .add(outroTimeline, '-=0.2');
 
     this.disposer1 = add(mainTimeline);
     this.disposer2 = add(circlesTimeline);
