@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import TimelineLite from 'gsap/TimelineLite';
-import { add } from 'gsap-tools'; // eslint-disable-line
 
 import s from './Logo.scss';
 
@@ -39,16 +38,18 @@ export default class Logo extends PureComponent {
 
     const logoPath = this.logo.childNodes;
     const ease = 'Power4.easeInOut';
+    const offsetLeft = `${(35 / 1175) * 100}%`;
+    const offsetTop = `${(35 / 270) * 100}%`;
 
     t.addLabel('start')
-      .set(logoPath, { transformOrigin: 'center' })
+      .set([logoPath, this.dot, this.dotInner], { transformOrigin: 'center' })
       .set(logoPath[4], { autoAlpha: 0, immediateRender: false })
       .set(this.dot, { autoAlpha: 1, immediateRender: false })
       .to(logoPath[0], 1.5, { rotation: -700, x: '-600%', y: -200, autoAlpha: 0, ease }, 'start')
       .to(logoPath[1], 1.5, { rotation: 700, x: '-400%', y: -600, autoAlpha: 0, ease }, 'start')
       .to(logoPath[2], 1.5, { rotation: 700, x: '400%', y: -600, autoAlpha: 0, ease }, 'start')
       .to(logoPath[3], 1.5, { rotation: 700, x: '600%', y: 600, autoAlpha: 0, ease }, 'start')
-      .to(this.dot, 1.5, { x: '-50%', y: '-50%', ease }, 'start')
+      .to(this.dot, 1.5, { x: '-50%', y: '-50%', left: offsetLeft, top: offsetTop, ease }, 'start')
       .to(this.dotInner, 1.5, { scale: 10, fill: '#796d9b', ease }, 'start');
 
     return t;

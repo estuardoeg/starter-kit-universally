@@ -1,0 +1,42 @@
+@import '~styles/config';
+
+.appleGuy {
+  position: absolute;
+  z-index: 1;
+
+  opacity: 0;
+
+  margin: auto;
+
+  // why this?
+  width: percentage(494px/1175px);
+
+  max-width: 700px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__svg {
+    @include fit;
+
+    display: block;
+
+    opacity: 1;
+
+    margin: auto;
+
+    width: 80%;
+    height: 600px;
+    max-width: 30vw;
+    max-height: 70%;
+
+    overflow: hidden;
+  }
+}

@@ -48,10 +48,10 @@
   }
 
   &__dotInner {
-    margin-bottom: percentage(1px/$width);
-
     width: percentage(70px/$width);
     height: auto;
+
+    overflow: visible;
   }
 
 }

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import TimelineLite from 'gsap/TimelineLite';
-import { add } from 'gsap-tools'; // eslint-disable-line
 
 import s from './Hero.scss';
 
@@ -77,8 +76,8 @@ export default class Circles extends PureComponent {
           <stop offset="100%" stopColor="#34c1fc" />
         </radialGradient>
         <radialGradient id="gradient-pink" cx="20%" cy="20%" r="50%">
-          <stop offset="0%" stopColor="#cf5eea" />
-          <stop offset="100%" stopColor="#e888ff" />
+          <stop offset="0%" stopColor="#e888ff" />
+          <stop offset="100%" stopColor="#cf5eea" />
         </radialGradient>
         <radialGradient id="gradient-green" cx="20%" cy="20%" r="50%">
           <stop offset="0%" stopColor="#cbf9ed" />
